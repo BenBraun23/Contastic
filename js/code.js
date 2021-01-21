@@ -1,4 +1,4 @@
-var urlBase = 'http://COP4331-5.com/LAMPAPI';
+var urlBase = 'http://contastic.rocks/LAMPAPI';
 var extension = 'php';
 
 var userId = 0;
@@ -17,8 +17,7 @@ function doLogin()
 
 	document.getElementById("loginResult").innerHTML = "";
 
-//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login.' + extension;
 
 	var xhr = new XMLHttpRequest();
@@ -29,7 +28,6 @@ function doLogin()
 		xhr.send(jsonPayload);
 
 		var jsonObject = JSON.parse( xhr.responseText );
-
 		userId = jsonObject.id;
 
 		if( userId < 1 )
