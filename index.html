@@ -1,22 +1,76 @@
 <html>
+<style>
+	#wrapper {
+		margin: 0 auto;
+		font-family: helvetica;
+		width: 40%;
+		min-width: 400px;
+		text-align: center;
+	}
+
+	body {
+		background-color: lightblue;
+	}
+
+	#content {
+		background-color: lightgrey;
+		border-radius: 12px;
+		padding: 25px 50px;
+		margin: 25px;
+	}
+
+	.info {
+		text-align: left;
+		float: center;
+	}
+
+	.info input {
+		width: 100%;
+		height: 40px;
+		border-radius: 2px;
+		border-style: none;
+	}
+	
+	.button {
+		border-radius: 2px;
+		width: 20%;
+		min-width: 50px;
+	}
+
+</style>
+
 <head>
-	<title>Contastic</title>
+	<title>Contastic Login</title>
+	
+	<!-- Code below taken from in class example, change links and sources later -->
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
-    <link href="css/styles.css" rel="stylesheet">	
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+	<link rel="stylesheet" href="stylesheet.css">
+	
+	<!-- if using specific external font, link it here -->
 </head>
+
 <body>
+	<div id="wrapper">
+	<div id="content">
+		<h1>Contastic</h1>
+	
+		<div>
+			<!-- change ids later to fit with java/api...? or whatever it is -->
+			<div class="info">
+				<label for="username">Username</label><br/>
+				<input type="text" id="loginName" /><br/><br/>
+			</div>
+			
+			<div class="info">
+				<label for="password">Password</label><br/>
+				<input type="password" id="loginPassword" /><br/><br/>
+			</div>
 
-<h1 id="title">Contastic</h1>
-
-<div id="loginDiv">
-	<span id="inner-title">PLEASE LOG IN</span>
-	<input type="text" id="loginName" placeholder="Username" /><br />
-	<input type="password" id="loginPassword" placeholder="Password"/><br />
-	<button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Do It </button>
-	<span id="loginResult"></span>
-</div>
-
+			<button type="button" class="button" id="loginButton" onclick="doLogin();"> Login </button>
+		</div>
+	</div>
+	</div>
 </body>
 </html>
