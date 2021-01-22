@@ -1,112 +1,31 @@
 <html>
-<style>
-	#wrapper {
-		margin: 0 auto;
-		width: 60%;
-		max-width: 600px;
-		min-width: 400px;
-		text-align: center;
-		font-family: helvetica;
-	}
-
-	body {
-		background-color: #a0b7ab;
-	}
-
-	#content {
-		margin: 120px 10px;
-		padding: 30px 30px 20px;
-		background-color: white;
-		box-shadow: 0 0 5px #658c77;
-		color: #a0b7ab;
-		border-radius: 12px;
-	}
-
-	#category {
-		margin: 18px 0 5px;
-		font-size: 19px;
-		font-weight: bold;
-	}
-
-	label {
-		font-size: 16px;
-		color: #999999;
-	}
-
-	.info {
-		text-align: left;
-		color: grey;
-	}
-
-	.info input {
-		padding: 10px;
-		width: 100%;
-		height: 40px;
-		background-color: #e2e2e2;
-		border: 1px solid #999999;
-		border-radius: 2px;
-		font-size: 18px;
-	}
-	
-	.info .extra {
-		margin: 8px 0px;
-	}
-
-	.button {
-		width: 100%;
-		min-width: 50px;
-		height: 35px;
-		background-color: #a0b7ab;
-		border-radius: 2px;
-		border-style: none;
-		color: white;
-		font-size: 16px;
-	}
-
-	.button:hover {
-		background-color: #658c77;
-		cursor: pointer;
-	}
-
-	a {
-		color: #a0b7ab;
-		text-decoration: none;
-	}
-
-	a:hover {
-		text-decoration: underline;
-	}
-</style>
-
 <head>
 	<title>Contastic Login</title>
 	
-	<!-- Code below taken from in class example, change links and sources later -->
+	<!-- If multiple js files used, change srcs -->
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
 
-	<!-- <link rel="stylesheet" href="css/stylesheet.css"> -->
-	
-	<!-- if using specific external font, link it here -->
+	<link href="css/styles.css" rel="stylesheet">
 </head>
 
 <body>
 	<div id="wrapper">
 	<div id="content">
-		<p style="font-size: 50; margin: 0 auto;">contastic</p>
+		<p style="font-size: 50; margin: 0 auto;"> contastic </p>
 	
 		<div class="info">
-			<div id="category">Login</div>
+			<div id="category"> Login </div>
 
 			<!-- change ids later if needed to fit with java/api-->
-			<label for="username">Username</label><br/>
+			<label for="username"> Username </label><br/>
 			<input type="text" id="loginName" /><br/><br/>
 			
-			<label for="password">Password</label><br/>
+			<label for="password"> Password </label><br/>
 			<input type="password" id="loginPassword" /><br/><br/><br/>
 
-			<button type="button" class="button" id="loginButton" onclick="doLogin();">LOGIN</button>
-			<div class="extra">Don't have an account? <a href="signup.html">Register</a></p>
+			<button type="button" class="button" id="loginButton" onclick="doLogin();"> LOGIN </button>
+			<div class="extra"> Don't have an account? <a href="signup.html"> Register </a></p>
 		</div>
 	</div>
 	</div>
