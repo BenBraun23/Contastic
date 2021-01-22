@@ -75,3 +75,8 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+#loginResult {
+	color: red;
+	font-weight: bold;
+}
