@@ -164,7 +164,7 @@ function addContact()
 
 	document.getElementById("contactAddResult").innerHTML = "";
 
-	// Must match API 
+	// Must match API
 	var jsonPayload =  `{"firstName" : "${newFirstName}",
 						"lastName" : "${newLastName}",
 						"phone" : "${newPhone}",
@@ -194,7 +194,7 @@ function addContact()
 
 }
 
-// FIXME: Change to search contact
+// FIXME: Change to search contact 
 function searchContact()
 {
 	var srch = document.getElementById("searchText").value;
