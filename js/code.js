@@ -55,6 +55,55 @@ function doLogin()
 	}
 }
 
+// Create new login for user
+function registerUser() {
+
+	firstName = document.getElementById("firstName").value;
+	lastName = document.getElementById("lastName").value;
+	var login = document.getElementById("loginName").value;
+	var password = document.getElementById("loginPassword").value;
+	var hash = md5( password );
+
+	document.getElementById("registerResult").innerHTML = "";
+
+	// Must match API naming scheme
+	var jsonPayload =  `{"firstName" : "${firstName}",
+						"lastName" : "${lastName}",
+						"login" : "${login}",
+						"password" : "${password}"}`;
+
+	var url = urlBase + '/SignUp.' + extension;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				// TODO: Ask API to send back json pkg with userid first last for auto login
+				var jsonObject = JSON.parse(xhr.responseText);
+				userId = jsonObject.id;
+
+				firstName = jsonObject.firstName;
+				lastName = jsonObject.lastName;
+
+				saveCookie();
+
+				// FIXME: CHANGE HTML FILE
+				window.location.href = "color.html";
+			}
+		};
+	}
+	catch(err)
+	{
+		document.getElementById("registerResult").innerHTML = err.message;
+	}
+
+}
+
 function saveCookie()
 {
 	var minutes = 20;
@@ -105,13 +154,24 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-function addColor()
+// Once logged in, user can add contact
+function addContact()
 {
-	var newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
+	var newFirstName = document.getElementById("firstName").value;
+	var newLastName = document.getElementById("lastName").value;
+	var newPhone = document.getElementById("phone").value;
+	var newEmail = document.getElementById("email").value;
 
-	var jsonPayload = '{"color" : "' + newColor + '", "userId" : ' + userId + '}';
-	var url = urlBase + '/AddColor.' + extension;
+	document.getElementById("contactAddResult").innerHTML = "";
+
+	// Must match API 
+	var jsonPayload =  `{"firstName" : "${newFirstName}",
+						"lastName" : "${newLastName}",
+						"phone" : "${newPhone}",
+						"email" : "${newEmail}",
+						"userId" : "${userId}"}`;
+
+	var url = urlBase + '/AddContact.' + extension;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -122,19 +182,20 @@ function addColor()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 
 }
 
-function searchColor()
+// FIXME: Change to search contact
+function searchContact()
 {
 	var srch = document.getElementById("searchText").value;
 	document.getElementById("colorSearchResult").innerHTML = "";
@@ -174,5 +235,14 @@ function searchColor()
 	{
 		document.getElementById("colorSearchResult").innerHTML = err.message;
 	}
+}
+
+// FIXME: Need to write this
+function updateContact() {
+
+}
+
+// FIXME: Need to write this
+function deleteContact() {
 
 }
