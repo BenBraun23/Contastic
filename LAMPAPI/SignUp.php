@@ -1,5 +1,4 @@
 <?php
-
 	$inData = getRequestInfo();
 	$firstName = $inData["firstName"];
 	$lastName = $inData["lastName"];
@@ -25,12 +24,10 @@
     }
 		else
     {
-
       $sql = "INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)";
   		$stmt = $conn->prepare($sql);
   		$stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
       $stmt->execute();
-  		$conn->close();
 			$sql = "SELECT ID FROM Users WHERE Login=?";
 			$stmt = $conn->prepare($sql);
 			$stmt->bind_param("s", $login);
@@ -38,6 +35,7 @@
 			$result = $stmt->get_result();
 			$row = $result->fetch_assoc();
 			$id = $row["ID"];
+			$conn->close();
 
 			returnWithInfo($firstName, $lastName, $id);
     }
