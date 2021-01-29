@@ -23,13 +23,18 @@ function doLogin()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true); // Changed to true
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	document.getElementById("loginResult").innerHTML = "Pre-Try";
 	try
 	{
+		xhr.send(jsonPayload);
+		document.getElementById("loginResult").innerHTML = "Try";
 		// Updated try block from friday free for all code session
 		xhr.onreadystatechange = function()
 		{
+			document.getElementById("loginResult").innerHTML = "Function";
 			if (this.readyState == 4 && this.status == 200)
 			{
+				document.getElementById("loginResult").innerHTML = "Done";
 				var jsonObject = JSON.parse(xhr.responseText);
 				userId = jsonObject.id;
 
@@ -79,6 +84,7 @@ function registerUser() {
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
+		xhr.send(jsonPayload);
 		xhr.onreadystatechange = function()
 		{
 			if (this.readyState == 4 && this.status == 200)
