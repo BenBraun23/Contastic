@@ -1,32 +1,39 @@
 <?php
 
 	$inData = getRequestInfo();
-
+	$login = $inData["login"];
+	$password = $inData["password"];
 	$id = 0;
 	$firstName = "";
 	$lastName = "";
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	$conn = new mysqli("localhost", "root", "632021Contastic", "Contastic");
 	if ($conn->connect_error)
 	{
 		returnWithError( $conn->connect_error );
 	}
 	else
 	{
-		$sql = "SELECT ID,firstName,lastName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
-		$result = $conn->query($sql);
+		$sql = "SELECT ID,firstName,lastName FROM Users where Login=? and Password=?";
+		$stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $login, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 		if ($result->num_rows > 0)
 		{
 			$row = $result->fetch_assoc();
 			$firstName = $row["firstName"];
 			$lastName = $row["lastName"];
 			$id = $row["ID"];
-
+			$sql = "UPDATE Users SET DateLastLoggedIn=CURRENT_TIMESTAMP WHERE Login=?";
+			$stmt = $conn->prepare($sql);
+			$stmt->bind_param("s", $login);
+			$stmt->execute();
 			returnWithInfo($firstName, $lastName, $id );
 		}
 		else
 		{
-			returnWithError( "No Records Found" );
+			returnWithError("No records found");
 		}
 		$conn->close();
 	}
@@ -44,8 +51,7 @@
 
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		throw new Exception($err);
 	}
 
 	function returnWithInfo( $firstName, $lastName, $id )
