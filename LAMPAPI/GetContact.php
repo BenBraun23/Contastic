@@ -15,12 +15,7 @@
 		$stmt->bind_param("d", $id);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		$dataSet = array();
-		while($row = $result->fetch_assoc())
-		{
-			$dataSet[] = $row;
-		}
-		returnWithInfo($dataSet);
+		returnWithInfo($result->fetch_assoc());
 		$conn->close();
 	}
 
