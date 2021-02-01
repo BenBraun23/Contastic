@@ -20,7 +20,7 @@
 		{
 			$dataSet[] = $row;
 		}
-		sendResultInfoAsJson($dataSet);
+		returnWithInfo($dataSet);
 		$conn->close();
 	}
 
@@ -44,8 +44,8 @@
 
 	function returnWithInfo( $message )
 	{
-		$retValue = '{"id":1, "message":"' . $message . '"}';
-		sendResultInfoAsJson( $retValue );
+		$retValue = json_encode($message);
+		sendResultInfoAsJson( '{"id":1, "results": "' . $retValue .'"}');
 	}
 
 ?>
