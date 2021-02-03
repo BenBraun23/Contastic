@@ -46,8 +46,8 @@ function doLogin()
 
 				saveCookie();
 
-				// Changed html file to main.html as group discussed
-				window.location.href = "main.html";
+				// Changed html file to home.html as group discussed
+				window.location.href = "home.html";
 			}
 		};
 	}
@@ -88,14 +88,19 @@ function registerUser() {
 			{
 				var jsonObject = JSON.parse(xhr.responseText);
 				userId = jsonObject.id;
-
+				// Ensures user does not get auto logged in if they create existing username
+				if (userId < 1)
+				{
+					document.getElementById("loginResult").innerHTML = jsonObject.error;
+					return;
+				}
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
 				saveCookie();
 
-				// Changed html file to main.html as group discussed
-				window.location.href = "main.html";
+				// Changed html file to home.html as group discussed
+				window.location.href = "home.html";
 			}
 		};
 	}
@@ -143,7 +148,7 @@ function readCookie()
 	}
 	else
 	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+		document.getElementById("userName").innerHTML = "Welcome " + firstName + " " + lastName + "!";
 	}
 }
 
@@ -239,14 +244,18 @@ function searchContact()
 	}
 }
 
-// This function edits only the first name.
+// Updates every field whether editted or not
 function updateContact() {
 
 	var updateFirstName = document.getElementById("firstName").value;
+	var updateLastName = document.getElementById("lastName").value;
+	var updateEmail = document.getElementById("email").value;
+	var updatePhone = document.getElementById("phone").value;
 	document.getElementById("updateResult").innerHTML = "";
 
-	var jsonPayload = '{"firstName" : "' + updateFirstName + '"}';
+	var jsonPayload = '{"firstName" : "' + updateFirstName + '", "lastName" : "' + updateLastName +'", "email" : "' + updateEmail + '", "phone" : "' + updatePhone + '"}';
 
+	// MUST match API
 	var url = urlBase + '/Update.' + extension;
 
 	var xhr = new XMLHttpRequest();
@@ -271,7 +280,33 @@ function updateContact() {
 
 
 
-// FIXME: Need to write this
+// Removes contact
 function deleteContact() {
 
+	// Grab specific contact id (MUST MATCH HTML)
+	var contactID = document.getElementById("contactID").value;
+	document.getElementById("deleteResult").innerHTML = "";
+
+	// "id" must match API
+	var jsonPayload = '{"id" : "' + contactID + '"}';
+	var url = urlBase + '/DeleteContact.' + extension;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("updateResult").innerHTML = "Contact has been deleted";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("deleteResult").innerHTML = err.message;
+	}
 }
