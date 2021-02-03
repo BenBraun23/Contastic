@@ -23,18 +23,15 @@ function doLogin()
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true); // Changed to true
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	document.getElementById("loginResult").innerHTML = "Pre-Try";
+
 	try
 	{
 		xhr.send(jsonPayload);
-		document.getElementById("loginResult").innerHTML = "Try";
 		// Updated try block from friday free for all code session
 		xhr.onreadystatechange = function()
 		{
-			document.getElementById("loginResult").innerHTML = "Function";
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("loginResult").innerHTML = "Done";
 				var jsonObject = JSON.parse(xhr.responseText);
 				userId = jsonObject.id;
 
@@ -49,8 +46,8 @@ function doLogin()
 
 				saveCookie();
 
-				// FIXME: CHANGE HTML FILE
-				window.location.href = "color.html";
+				// Changed html file to main.html as group discussed
+				window.location.href = "main.html";
 			}
 		};
 	}
@@ -75,7 +72,7 @@ function registerUser() {
 	var jsonPayload =  `{"firstName" : "${firstName}",
 						"lastName" : "${lastName}",
 						"login" : "${login}",
-						"password" : "${password}"}`;
+						"password" : "${hash}"}`; // Changed to hash
 
 	var url = urlBase + '/SignUp.' + extension;
 
@@ -89,7 +86,6 @@ function registerUser() {
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				// TODO: Ask API to send back json pkg with userid first last for auto login
 				var jsonObject = JSON.parse(xhr.responseText);
 				userId = jsonObject.id;
 
@@ -98,8 +94,8 @@ function registerUser() {
 
 				saveCookie();
 
-				// FIXME: CHANGE HTML FILE
-				window.location.href = "color.html";
+				// Changed html file to main.html as group discussed
+				window.location.href = "main.html";
 			}
 		};
 	}
@@ -200,16 +196,16 @@ function addContact()
 
 }
 
-// FIXME: Change to search contact 
+// Updated Search
 function searchContact()
 {
 	var srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
+	document.getElementById("contactSearchResult").innerHTML = "";
 
-	var colorList = "";
+	var contactList = "";
 
-	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
-	var url = urlBase + '/SearchColors.' + extension;
+	var jsonPayload = '{"userId" : ' + userId + '}';
+	var url = urlBase + '/Search.' + extension;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -220,33 +216,60 @@ function searchContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
+				document.getElementById("contactSearchResult").innerHTML = "Contact has been retrieved";
 				var jsonObject = JSON.parse( xhr.responseText );
 
 				for( var i=0; i<jsonObject.results.length; i++ )
 				{
-					colorList += jsonObject.results[i];
+					contactList += jsonObject.results[i];
 					if( i < jsonObject.results.length - 1 )
 					{
-						colorList += "<br />\r\n";
+						contactList += "<br />\r\n";
 					}
 				}
 
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
+				document.getElementsByTagName("p")[0].innerHTML = contactList;
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
+		document.getElementById("contactSearchResult").innerHTML = err.message;
 	}
 }
 
-// FIXME: Need to write this
+// This function edits only the first name.
 function updateContact() {
 
+	var updateFirstName = document.getElementById("firstName").value;
+	document.getElementById("updateResult").innerHTML = "";
+
+	var jsonPayload = '{"firstName" : "' + updateFirstName + '"}';
+
+	var url = urlBase + '/Update.' + extension;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("updateResult").innerHTML = "Contact has been updated";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("updateResult").innerHTML = err.message;
+	}
 }
+
+
 
 // FIXME: Need to write this
 function deleteContact() {
