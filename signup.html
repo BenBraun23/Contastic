@@ -2,22 +2,23 @@
 <head>
 	<title>Contastic Sign Up</title>
 	
-	<!-- If multiple js files used, change srcs -->
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
 
 	<link href="css/styles.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href=https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap">
 </head>
 
 <body>
 	<div id="wrapper">
-	<div id="content" style="margin: 80px 10px 0">
-		<p style="font-size: 50; margin: 0 auto;"> contastic </p>
+	<div id="content" style="margin: 85px 10px 0">
+		<img src="images/cropLogo.png" alt="Contastic" style="height: 60px; vertical-align: middle;">
+		<span style="font-size: 45px; font-family:'Exo', sans-serif; vertical-align: middle; padding: 0 10px;"> CONTASTIC </span>
 	
 		<div class="info">
 			<div id="category"> Sign Up </div>
 
-	<!-- CHANGE IDS TO MATCH JAVA -->
 			<label for="first name"> First Name </label><br/>
 			<input type="text" id="firstName" /><br/><br/>
 
@@ -31,7 +32,7 @@
 			<input type="password" id="loginPassword" /><br/><br/>
 
 			<button type="button" class="button" onclick="registerUser();">CREATE &nbspACCOUNT</button>
-	<!-- CHANGE IDS TO MATCH JAVA -->
+
 			<div class="extra"> Already have an account? <a href="index.html"> Login </a></div>
 			<div id="registerResult"></div>
 		</div>
