@@ -7,13 +7,32 @@
 	font-family: helvetica;
 }
 
+#wrapperMain {
+	margin: 0 auto;
+	width: 95%;
+	min-width: 650px;
+	text-align: center;
+	font-family: helvetica;
+}
+
 body {
 	background-color: #a0b7ab;
+	margin: 0;
 }
 
 #content {
-	margin: 120px 10px 0;
-	padding: 30px 30px 20px;
+	margin: 140px 10px 0;
+	padding: 40px 30px 30px;
+	background-color: white;
+	box-shadow: 0 0 5px #658c77;
+	color: #a0b7ab;
+	border-radius: 8px;
+}
+
+#contentMain {
+	margin: 20px 5px 0;
+	height: 90%;
+	min-height: 400px;
 	background-color: white;
 	box-shadow: 0 0 5px #658c77;
 	color: #a0b7ab;
