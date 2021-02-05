@@ -10,7 +10,7 @@
 
 	else
 	{
-		$sql = "SELECT id, FirstName, LastName FROM Contacts WHERE UserID=?";
+		$sql = "SELECT id, FirstName, LastName, Phone, Email FROM Contacts WHERE UserID=?";
 		$stmt = $conn->prepare($sql);
 		$stmt->bind_param("d", $id);
 		$stmt->execute();

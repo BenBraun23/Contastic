@@ -2,10 +2,10 @@
 	$inData = getRequestInfo();
 	$firstName = $inData["firstName"];
 	$lastName = $inData["lastName"];
-	$phone = $inData["phone"];
-	$email = $inData["email"];
+	$phone = $inData["phone"]; // make optional
+	$email = $inData["email"]; // make optional
 	$id = $inData["id"];
-
+// update contact takes all parameters
 	$conn = new mysqli("localhost", "root", "632021Contastic", "Contastic");
 	if ($conn->connect_error)
 	{
