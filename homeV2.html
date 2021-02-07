@@ -1,0 +1,248 @@
+<html>
+<style>
+
+	#fade {
+		background-color: #a0b7ab;
+		margin: -20px auto;
+		height: 100%;
+		width: 100%;
+		animation: welcomeUser 3s;
+		animation-fill-mode: forwards;
+		z-index: 2;
+		position: absolute;
+	}
+
+	#fade p {
+		color: white;
+		text-align: center;
+		font-size: 40px;
+		font-family: arial;
+		padding: 270px 0 0;
+	}
+
+	@keyframes welcomeUser {
+		30% {opacity: 1.0;}
+		100% {opacity: 0;}
+	}
+
+	#topBar {
+		background-color: #a0b7ab;
+		width: 100%;
+		float: left;
+	}
+
+	#userProfile {
+		width: 25%;
+		max-width: 200px;
+		background-color: #e2e2e2;
+		float: left;
+		height: 100%;
+	}
+
+	#userAvatar {
+		background-color: #171a17;
+		border: 1px solid white;
+		height: 135px;
+		width: 135px;
+		border-radius: 50%;
+		margin: 0 auto;
+	}
+
+	#logoSec {
+		width: 25%;
+		max-width: 200px;
+		float: left;
+	}
+
+	#search {
+		padding: 10px;
+		min-height: 50px;
+		text-align: left;
+		color: white;
+		font-weight: bold;
+		float: left;
+		width: 71%;
+	}
+
+	input {
+		margin: 5px 10px;
+		padding: 8px;
+		width: 200px;
+		height: 32px;
+		background-color: white;
+		border: 1px solid #999999;
+		border-radius: 2px;
+		font-size: 15px;
+		float: left;
+	}
+
+	#search .button {
+		margin: 5px 10px;
+		width: 100px;
+		min-width: 50px;
+		height: 30px;
+		background-color: #171a17;
+		border-radius: 2px;
+		border-style: none;
+		color: white;
+		font-size: 16px;
+		float: left;
+	}
+
+	#search .button:hover {
+		background-color: #658c77;
+		cursor: pointer;
+	}
+
+	table {
+		margin: 0px;
+		width: 70%;
+		border: none;
+		border-collapse: collapse;
+		text-align: left;
+		float: left;
+	}
+		
+	td {
+		border: 1px solid lightgrey;
+		border-right: none;
+		border-left: none;
+		padding: 10px 10px 10px 20px;
+		color: #343d38;
+	}
+	
+
+	th {
+		border: 3px solid #e2e2e2;
+		border-top: none;
+		border-right: none;
+		border-left: none;
+		padding: 15px 15px 15px 20px;
+	}
+
+	tr:hover {
+		background-color: lightblue;
+	}
+
+	tr:nth-child(1):hover {
+		background: none;
+	}
+
+
+	#addContacts {
+		margin: 10px 0 0 0;
+		padding: 0 0 10px 10px;
+		float: left;
+		max-width: 73%;
+		text-align: left;
+		color: grey;
+		border-color: #e2e2e2;
+		border-bottom-style: solid;
+	}
+
+	#addContacts .button {
+		margin: 5px 10px;
+		width: 120px;
+		min-width: 50px;
+		height: 30px;
+		background-color: #a0b7ab;
+		border-radius: 2px;
+		border-style: none;
+		color: white;
+		font-size: 16px;
+		float: left;
+	}
+
+	#addContacts .button:hover {
+		background-color: #658c77;
+		cursor: pointer;
+	}
+</style>
+
+<head>
+	<title>Contastic Home</title>
+
+	<script type="text/javascript" src="js/md5.js"></script>
+
+	<link href="css/stylesV2.css" rel="stylesheet">
+	<link rel="icon" href="images/cropLogo.png" type="image/icon type">
+
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function()
+		{
+			readCookie();
+		}, false);
+	</script>
+</head>
+
+<body id="bodyHome">
+	<!--
+	<div id= "fade">
+		<p id="userName">Welcome User!</p> 
+	</div>
+	 Dont use till fix utilization -->
+
+		<div style="background-color: green; width: 100%"> </div>
+		<div id="topBar">
+		<div id="logoSec">
+			<img src="images/contasticLogo.png" alt="Contastic" style="height: 80px; margin: 10px;">
+		</div>
+
+		<div id="search">
+			<br><div style="margin: -10px 0 0 10px;"> Search </div>
+			<input type="text" id="searchText" placeholder="Contact to search" />
+
+			<input type="text" id=" " placeholder="Last name (PH)" />
+			<input type="text" id=" " placeholder="Phone # (PH)" />
+			<input type="text" id=" " placeholder="Email (PH)" />
+			<!-- ^rename ids to fit js when written -->
+
+			<button type="button" class="button" onclick="searchContact();"> Search </button>
+
+			<div id="contactSearchResult"> </div>
+			<!-- ^ take out the above after trial testing is done -->
+			<p id="contactList">
+			<!-- ^ remove after js is edited to create html -->
+				
+		</div> 
+		</div>
+
+		<div id="userProfile">
+			<p id="userName" style="color:#171a17; padding: 50% 0 0 0; font-weight: bold;"> </p>
+			<div id="userAvatar"></div>
+			<p style="color:#171a17;"> Maybe put user info here? </p>
+			<br/><br/><br/><br/><br/>
+			<button type="button" class="button" onclick="doLogout();"> LOG OUT </button> <br/><br/>
+			<button type="button" class="button" onclick="      "> ADD CONTACT PLACEHOLDER (PH) </button>
+		</div>
+
+<!-- Take out
+
+		<div id="addContacts">
+			<div id="label" style="margin: 10px 0 0 10px;"> Add Contact (Testing, temporary position)</div>
+			<input type="text" id="firstName" placeholder="First Name" />
+			<input type="text" id="lastName" placeholder="Last Name" />
+			<input type="tel" id="phone" placeholder="Phone# (123) 456-7890" />
+			<input type="email" id="email" placeholder="Email" />
+			<!-- Review & Add input requirements ADD END COMMENT HERE'-'->'
+
+			<button type="button" class="button" onclick="addContact();"> Add Contact </button>
+			<div id="contactAddResult"> </div>
+		</div>
+-->
+
+		<table>
+			<tr>
+				<th> First Name </th>
+				<th> Last Name </th>
+				<th> Phone Number </th>
+				<th> Email </th>
+			</tr>
+			<tr>
+				<td> Default_1 </td>
+				<td> Default_2 </td>
+				<td> Default_3 </td>
+				<td> Default@gmail.com </td>
+			</tr>
+		</table>
+</body>
