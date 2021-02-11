@@ -1,40 +1,116 @@
 <html>
+<style>
+
+	#fade {
+		background-color: #a0b7ab;
+		margin: -20px auto;
+		height: 100%;
+		width: 100%;
+		animation: welcomeUser 3s;
+		animation-fill-mode: forwards;
+		z-index: 2;
+		position: absolute;
+	}
+
+	#fade p {
+		color: white;
+		text-align: center;
+		font-size: 40px;
+		font-family: arial;
+		padding: 270px 0 0;
+	}
+
+	@keyframes welcomeUser {
+		30% {opacity: 1.0;}
+		100% {opacity: 0;}
+	}
+</style>
+
 <head>
-	<title>Contastic</title>
+	<title>Contastic Home</title>
+
+	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<link rel="icon" href="images/Contastic_Logo.png" type="image/icon type">
+
+	<link href="css/styles.css" rel="stylesheet">
+	<link rel="icon" href="images/cropLogo.png" type="image/icon type">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function()
-	{
-		readCookie();
-	}, false);
+		document.addEventListener('DOMContentLoaded', function()
+		{
+			readCookie();
+		}, false);
 	</script>
-
 </head>
-<body>
 
-<h1 id="title">Contastic</h1>
+<body id="bodyHome">
+	<!--
+	<div id= "fade">
+		<p id="userName">Welcome User!</p>
+	</div>
+	 Dont use till utilization fix -->
 
-<div id="loggedInDiv">
-	<span id="userName"></span><br />
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
-</div>
+		<div id="topBar">
+			<div id="logoSec">
+				<img src="images/contasticLogo.png" alt="Contastic" style="height: 80px; margin: 10px;">
+			</div>
 
-<div id="accessUIDiv">
-	<br />
+			<div id="search">
+				<br><div style="margin: -10px 0 0 10px;"> Search </div>
+				<input type="text" id="firstSearch" placeholder="First Name" />
+				<input type="text" id="lastSearch" placeholder="Last Name" />
+				<input type="text" id="phoneSearch" placeholder="Phone #" />
+				<input type="text" id="emailSearch" placeholder="Email" />
+				<!-- updated ids -->
 
-	<input type="text" id="searchText" placeholder="Contact To Search For"/>
-	<button type="button" id="searchColorButton" class="buttons" onclick="searchContact();"> Search Contacts </button><br />
-	<span id="contactSearchResult"></span>
-	<p id="contactList">
-	</p><br /><br />
+				<button type="button" class="button" onclick="searchContact();"> <i class="fa fa-search"></i> </button>
 
-	<input type="text" id="contactText" placeholder="Contact To Add">
-	<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button><br />
-	<span id="contactAddResult"></span>
-</div>
+				<div id="contactSearchResult"> </div>
+				<!-- ^ take out the above after trial testing is done -->
+				<p id="contactList">
+				<!-- ^ remove after js is edited to create html -->
+			</div>
+		</div>
 
+		<div id="userProfile">
+			<p id="userName" style="color:#171a17; padding: 70px 0 0 0; font-weight: bold;">  </p>
+			<div id="userAvatar"></div>
+			<p style="color:#171a17;"> Maybe put user info here? </p>
+			<br/><br/><br/><br/><br/>
+			<button type="button" class="button" onclick="doLogout();"> LOG OUT </button> <br/><br/>
+			<button type="button" class="button" onclick="      "> ADD CONTACT PLACEHOLDER (PH) </button>
+		</div>
+
+		<div id="addContacts">
+			<div id="label" style="margin: 10px 0 0 10px;"> Add Contact (Testing, temporary position)</div>
+			<input type="text" style="border: 1px solid black;" id="firstName" placeholder="First Name" />
+			<input type="text" style="border: 1px solid black;" id="lastName" placeholder="Last Name" />
+			<input type="tel" style="border: 1px solid black;" id="phone" placeholder="Phone# (123) 456-7890" />
+			<input type="email" style="border: 1px solid black;" id="email" placeholder="Email" />
+			<!-- Review & Add input requirements-->
+
+			<button type="button" class="button" onclick="addContact();"> Add Contact </button>
+			<div id="contactAddResult"> </div>
+		</div>
+
+		<table id="contacts">
+			<tr>
+				<th> First Name </th>
+				<th> Last Name </th>
+				<th> Phone Number </th>
+				<th> Email </th>
+				<th> </th>
+				<th> </th>
+			</tr>
+			<tr>
+				<td> Default_1 </td>
+				<td> Default_2 </td>
+				<td> Default_3 </td>
+				<td> Default@gmail.com </td>
+				<td><button type="button" id="cross" onclick=" "> &#10006; </span>
+				<td><button type="button" id="edit" onclick=" "> &#9998; </span>
+			</tr>
+		</table>
 </body>
-</html>
