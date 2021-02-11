@@ -2,9 +2,9 @@
 	$inData = getRequestInfo();
 	$firstName = $inData["firstName"];
 	$lastName = $inData["lastName"];
-	$phone = $inData["phone"]; 
+	$phone = $inData["phone"];
 	$email = $inData["email"];
-	$id = $inData["id"];
+	$contactID = $inData["id"];
 
 	$conn = new mysqli("localhost", "root", "632021Contastic", "Contastic");
 	if ($conn->connect_error)
@@ -14,13 +14,12 @@
 
 	else
 	{
-		$sql = "INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID)
-						VALUES (?, ?, ?, ?, ?)";
+		$sql = "UPDATE Contacts SET FirstName=?, LastName=?, Phone=?, Email=? WHERE id=?";
 		$stmt = $conn->prepare($sql);
-		$stmt->bind_param("ssdsd", $firstName, $lastName, $phone, $email, $id);
+		$stmt->bind_param("ssdsd", $firstName, $lastName, $phone, $email, $contactID);
 		$stmt->execute();
 		$conn->close();
-		returnWithInfo("Contact added");
+		returnWithInfo("Contact updated");
 	}
 
 
