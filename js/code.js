@@ -15,6 +15,12 @@ function doLogin()
 	var password = document.getElementById("loginPassword").value;
 	var hash = md5( password );
 
+	if ((login == "") || (password == ""))
+	{
+		document.getElementById("loginResult").innerHTML = "Not a valid username/password";
+		return;
+	}
+
 	document.getElementById("loginResult").innerHTML = "";
 
 	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
@@ -65,6 +71,12 @@ function registerUser() {
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
 	var hash = md5( password );
+
+	if ((login == "") || (password == ""))
+	{
+		document.getElementById("loginResult").innerHTML = "Not a valid username/password";
+		return;
+	}
 
 	document.getElementById("registerResult").innerHTML = "";
 
@@ -176,7 +188,7 @@ function addContact()
 						"lastName" : "${newLastName}",
 						"phone" : "${newPhone}",
 						"email" : "${newEmail}",
-						"userId" : "${userId}"}`;
+						"id" : "${userId}"}`; // Changed from userId to id
 
 	var url = urlBase + '/AddContact.' + extension;
 
@@ -209,7 +221,7 @@ function searchContact()
 
 	var contactList = "";
 
-	var jsonPayload = '{"userId" : ' + userId + '}';
+	var jsonPayload = '{"id" : ' + userId + '}'; // Changed from userId to id
 	var url = urlBase + '/Search.' + extension;
 
 	var xhr = new XMLHttpRequest();
