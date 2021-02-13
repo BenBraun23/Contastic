@@ -1,4 +1,4 @@
-var urlBase = 'http://contastic.rocks/LAMPAPI';
+var urlBase = 'http://www.contastic.rocks/LAMPAPI';
 var extension = 'php';
 
 var userId = 0;
@@ -14,6 +14,12 @@ function doLogin()
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
 	var hash = md5( password );
+
+	if ((login == "") || (password == ""))
+	{
+		document.getElementById("loginResult").innerHTML = "Not a valid username/password";
+		return;
+	}
 
 	document.getElementById("loginResult").innerHTML = "";
 
@@ -57,6 +63,8 @@ function doLogin()
 	}
 }
 
+
+
 // Create new login for user
 function registerUser() {
 
@@ -65,6 +73,12 @@ function registerUser() {
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
 	var hash = md5( password );
+
+	if ((login == "") || (password == ""))
+	{
+		document.getElementById("loginResult").innerHTML = "Not a valid username/password";
+		return;
+	}
 
 	document.getElementById("registerResult").innerHTML = "";
 
@@ -176,7 +190,8 @@ function addContact()
 						"lastName" : "${newLastName}",
 						"phone" : "${newPhone}",
 						"email" : "${newEmail}",
-						"userId" : "${userId}"}`;
+						"id" : "${userId}"}`; // Changed from userId to id
+		
 
 	var url = urlBase + '/AddContact.' + extension;
 
@@ -190,6 +205,14 @@ function addContact()
 			if (this.readyState == 4 && this.status == 200)
 			{
 				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+
+				//  Alert when the contact does not have a name. 
+				if (newFirstName == "")
+				{	
+					alert("You need to add a name");
+					return;
+				}
+				addContactToTable(newFirstName, newLastName, newPhone, newEmail);
 			}
 		};
 		xhr.send(jsonPayload);
@@ -201,16 +224,72 @@ function addContact()
 
 }
 
+function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
+{
+	// Find a <table> element with id="fillContacts":
+	var table = document.getElementById("fillContacts");
+
+	// Create edit button
+	var editButton = document.createElement("BUTTON");
+	editButton.innerHTML = "Edit";
+
+	editButton.onclick = function() { alert("This button should call the updateContact() funtion"); }
+	
+	//Create delete button
+	var deleteButton = document.createElement("BUTTON");
+	deleteButton.innerHTML = "Delete";
+	deleteButton.onclick = function()
+	{ 
+		// This function is a test. The working version should call deleteContact()
+		deleteTest(newFirstName, newLastName, newPhone, newEmail);
+	}
+	
+	// Create an empty <tr> element and add it to the 1st position of the table:
+	var row = table.insertRow(0);
+
+	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);
+	var cell5 = row.insertCell(4);
+	var cell6 = row.insertCell(5);
+
+	// Add some text to the new cells:
+	cell1.innerHTML = newFirstName;
+	cell2.innerHTML = newLastName;
+	cell3.innerHTML = newPhone;
+	cell4.innerHTML = newEmail;
+	cell5.appendChild(editButton);
+	cell6.appendChild(deleteButton);
+}
+
+// This function is a test. I am testing if the parameters can be pass to this function.
+function deleteTest(newFirstName, newLastName, newPhone, newEmail) 
+{
+	window.alert("This button should call the delete() funtion and deletes this contact : " +  newFirstName + " " + newLastName + " "  + newPhone + " " + newEmail );
+}
+
+
+
 // Updated Search
 function searchContact()
 {
-	var srch = document.getElementById("searchText").value;
+	// Updated to search every field
+	var first = document.getElementById("firstSearch").value;
+	var last = document.getElementById("lastSearch").value;
+	var phone = document.getElementById("phoneSearch").value;
+	var email = document.getElementById("emailSearch").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
 
 	var contactList = "";
 
-	var jsonPayload = '{"userId" : ' + userId + '}';
-	var url = urlBase + '/Search.' + extension;
+	var jsonPayload = `{"firstName" : "${first}",
+						"lastName" : "${last}",
+						"phone" : "${phone}",
+						"email" : "${email}",
+						"id" : "${userId}"}`; // Changed from userId to id
+	var url = urlBase + '/SearchContact.' + extension; // Changed to match php
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -256,7 +335,7 @@ function updateContact() {
 	var jsonPayload = '{"firstName" : "' + updateFirstName + '", "lastName" : "' + updateLastName +'", "email" : "' + updateEmail + '", "phone" : "' + updatePhone + '"}';
 
 	// MUST match API
-	var url = urlBase + '/Update.' + extension;
+	var url = urlBase + '/UpdateContact.' + extension; // Changed to match php
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
