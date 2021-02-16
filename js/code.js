@@ -229,7 +229,7 @@ function addContact()
 
 //NEW FUNCTION creates table
 function creatTable(){
-		
+	
 }
 
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
@@ -253,9 +253,10 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	//Create delete button
 	var deleteButton = document.createElement("BUTTON");
 	deleteButton.innerHTML = "&#10006;";
-  deleteButton.setAttribute("type","button");
-  deleteButton.setAttribute("class","cross");
-  //Add attribute 'data-uid' later
+	deleteButton.setAttribute("type","button");
+	deleteButton.setAttribute("class","cross");
+	//Add attribute 'data-uid'
+	
 	deleteButton.onclick = function()
 	{
 		// This function is a test. The working version should call deleteContact()
@@ -265,7 +266,8 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	}
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
-	var row = table.insertRow(0);
+	//Adjusted to add tr to the bottom of the table; this is to prevent having to update all pre-existing entries' 'data-listorder' attribute
+	var row = table.insertRow();
 
 	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 	var cell1 = row.insertCell(0);
