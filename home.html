@@ -24,6 +24,8 @@
 		30% {opacity: 1.0;}
 		100% {opacity: 0;}
 	}
+
+
 </style>
 
 <head>
@@ -43,6 +45,8 @@
 			readCookie();
 		}, false);
 	</script>
+
+
 </head>
 
 <body id="bodyHome">
@@ -59,12 +63,10 @@
 
 			<div id="search">
 				<br><div style="margin: -10px 0 0 10px;"> Search </div>
-				<input type="text" id="searchText" placeholder="Contact to search" />
-
-				<input type="text" id=" " placeholder="Last Name (PH)" />
-				<input type="text" id=" " placeholder="Phone # (PH)" />
-				<input type="text" id=" " placeholder="Email (PH)" />
-				<!-- ^rename ids to fit js when written -->
+				<input type="text" id="firstSearch" placeholder="First Name" />
+				<input type="text" id="lastSearch" placeholder="Last Name" />
+				<input type="text" id="phoneSearch" placeholder="Phone #" />
+				<input type="text" id="emailSearch" placeholder="Email" />
 
 				<button type="button" class="button" onclick="searchContact();"> <i class="fa fa-search"></i> </button>
 
@@ -110,8 +112,126 @@
 				<td> Default_2 </td>
 				<td> Default_3 </td>
 				<td> Default@gmail.com </td>
-				<td><button type="button" id="cross" onclick=" "> &#10006; </span>
-				<td><button type="button" id="edit" onclick=" "> &#9998; </span>
+     		<td><button type="button" class="edit" data-uid="Default_UID" data-listorder="0"> &#9998; </button></td>
+				<td><button type="button" class="cross" onclick=" "> &#10006; </button></td>
 			</tr>
+      <table id="fillContacts"></table>
 		</table>
+
+
+<style>
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 15%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  min-width: 740px;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+	margin: auto;
+	width: 80%;
+	height: 180px;
+	background-color: white;
+	padding: 10px;
+	border-radius: 7px 7px 6px 6px;
+}
+
+.modalBar {
+	background-color: #a0b7ab;
+	color: white;
+	width: 100%;
+	margin: -10px 0 10px -10px;
+	padding: 0 20px 0 0;
+	text-align: left;
+	font-weight: bold;
+	float: left;
+	border-radius: 6px 6px 0 0;
+}
+
+.edits-input {
+	margin: 5px 10px;
+	padding: 8px;
+	background-color: #e2e2e2;
+	border-radius: 3px;
+	width: 200px;
+	height: 20px;
+	font-size: 18px;
+	text-align: left;
+	color: black;
+	float: left;
+	letter-spacing: 0.2px;
+}
+
+</style>
+
+	<div id="homeModal" class="modal">
+		<div class="modal-content">
+			<div class="modalBar">
+				<div style="margin: 10px;"> Edit Contact </div>
+			</div>
+
+			<div id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
+			<div id="lastEdit" class="edits-input" contenteditable="true"> Last Name </div>
+			<div id="phoneEdit" class="edits-input" contenteditable="true"> Phone Number </div>
+			<div id="emailEdit" class="edits-input" contenteditable="true"> Email </div>
+			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
+			
+			<button type="button" class="button" onclick="updateContact();"> Update </button>
+
+			<span id="updateResult" style="color: red;"> </span>
+			<!-- ^remove after testing -->
+		</div>
+	</div>
+
+
+	<script>
+		var modal = document.getElementById("homeModal");
+		var editBtns = document.getElementsByClassName("edit");
+
+		//copying contact info into modal to edit
+		var openModal = function() {
+			var UID = this.getAttribute("data-uid");
+			var row = this.getAttribute("data-listorder");
+
+			var info = document.getElementsByTagName("td");
+			
+			var firstName = info[row * 6].innerHTML;
+			document.getElementById("firstEdit").innerHTML = firstName;
+
+			var lastName = info[row * 6 + 1].innerHTML;
+			document.getElementById("lastEdit").innerHTML = lastName;
+
+			var phone = info[row * 6 + 2].innerHTML;
+			document.getElementById("phoneEdit").innerHTML = phone;
+
+			var email = info[row * 6 + 3].innerHTML;
+			document.getElementById("emailEdit").innerHTML = email;
+
+			document.getElementById("uid").innerHTML = UID;
+
+			modal.style.display = "block";
+		}
+
+		//adding click event to all edit buttons
+		for (var i=0 ; i < editBtns.length ; i++) {
+			editBtns[i].addEventListener('click', openModal, false);
+		}
+
+		//click on window screen (off modal) to close
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+		
+	</script>
 </body>
