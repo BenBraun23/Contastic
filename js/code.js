@@ -227,6 +227,11 @@ function addContact()
 
 }
 
+//NEW FUNCTION creates table
+function creatTable(){
+		
+}
+
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 {
 	// Find a <table> element with id="fillContacts":
@@ -235,9 +240,13 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	// Create edit button
 	var editButton = document.createElement("BUTTON");
 	editButton.innerHTML = "&#9998;";
-  editButton.setAttribute("type","button");
-  editButton.setAttribute("class","edit");
-  //Add attributes 'data-uid' and 'data-listorder'
+	editButton.setAttribute("type","button");
+	editButton.setAttribute("class","edit");
+	//Add attributes 'data-uid' and 'data-listorder'
+	//contact ID for 'data-uid' should be provided from api/database
+	//'data-listorder' is the row position of the element, can use 
+		//var listOrder = table.length;
+		//editButton.setAttribute("data-listorder", listOrder);
 
 	editButton.onclick = function() { alert("This button should call the updateContact() funtion"); }
 
@@ -371,7 +380,8 @@ function updateContact() {
 		//Make function close modal ; code for it:
 			//var modal = document.getElementById("homeModal");
 			//modal.style.display = "none";
-		//And reload the table (create new table)
+		//And reload the table (create new table), possibly just do the searchContact() function bc input will still exist from last search
+		//If searchContact() function is used, remove the empty search precaution added a while back. If the user never searched anything, and just edited with initial contacts on page then it should return the all contacts
 		
 	}
 	catch(err)
