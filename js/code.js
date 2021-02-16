@@ -344,9 +344,9 @@ function updateContact() {
 	var updateLastName = document.getElementById("lastEdit").value;
 	var updateEmail = document.getElementById("emailEdit").value;
 	var updatePhone = document.getElementById("phoneEdit").value;
-  var contactID = document.getElementById("uid").value;
+	var contactID = document.getElementById("uid").value;
 	document.getElementById("updateResult").innerHTML = "";
-   //Changed IDs to comply with unique html ID req
+   	//Changed IDs to comply with unique html ID req
 
 	var jsonPayload = '{"firstName" : "' + updateFirstName + '", "lastName" : "' + updateLastName +'", "email" : "' + updateEmail + '", "phone" : "' + updatePhone + '", "id" : "' + contactID + '"}';
 
@@ -366,6 +366,13 @@ function updateContact() {
 			}
 		};
 		xhr.send(jsonPayload);
+		
+		//Once function is successful in testing
+		//Make function close modal ; code for it:
+			//var modal = document.getElementById("homeModal");
+			//modal.style.display = "none";
+		//And reload the table (create new table)
+		
 	}
 	catch(err)
 	{
