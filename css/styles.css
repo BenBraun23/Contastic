@@ -143,6 +143,7 @@ a:hover {
 	font-size: 16px;
 	float: left;
 	color: #242424;
+	letter-spacing: 0.1px;
 }
 
 #search ::placeholder {
@@ -169,7 +170,7 @@ a:hover {
 
 table {
 	margin: 0 0 0 10px;
-	width: 70%;
+	width: 68%;
 	border: none;
 	border-collapse: collapse;
 	text-align: left;
@@ -180,9 +181,10 @@ td {
 	border: 1px solid lightgrey;
 	border-right: none;
 	border-left: none;
-	padding: 10px 10px 10px 20px;
+	padding: 10px 8px 10px 20px;
 	color: #383838;
 	font-size: 15px;
+	letter-spacing: 0.3px;
 }
 	
 
@@ -191,7 +193,7 @@ th {
 	border-top: none;
 	border-right: none;
 	border-left: none;
-	padding: 17px 15px 10px 20px;
+	padding: 17px 8px 10px 20px;
 	coor: #242424;
 		font-size: 16px;
 }
@@ -246,7 +248,7 @@ tr:nth-child(1):hover {
 	color: #242424;
 }
 
-#cross {
+.cross {
 	border: none;
 	background: none;
 	width: 25px;
@@ -257,12 +259,12 @@ tr:nth-child(1):hover {
 	font-size: 16px;
 }
 
-#cross:hover {
+.cross:hover {
 	background-color: #ff4242;
 	color: white;
 }
 
-#edit {
+.edit {
 	border: none;
 	background: none;
 	width: 25px;
@@ -273,7 +275,25 @@ tr:nth-child(1):hover {
 	font-size: 16px;
 }
 
-#edit:hover {
+.edit:hover {
 	background-color: #a0b7ab;
 	color: white;
+}
+
+#homeModal .button {
+	margin: 5px 10px;
+	width: 100px;
+	height: 35px;
+	background-color: #242424;
+	border-radius: 3px;
+	border-style: none;
+	color: white;
+	font-size: 15px;
+	float: left;
+	letter-spacing: 0.5px;
+}
+
+#homeModal .button:hover {
+	background-color: #636363;
+	cursor: pointer;
 }
