@@ -227,9 +227,37 @@ function addContact()
 
 }
 
-//NEW FUNCTION creates table
-function creatTable(){
+//NEW FUNCTION creates table with headers
+//Will be added in other functions such as login and update (delete Table will also need to be created later)
+//Before implementing into other functions, delete hardcoded table included within home.html
+function createTable(){
+	var table = document.createElement("table");
+	table.setAttribute("id", "fillContacts");
 	
+	var row = table.insertRow(0);
+	
+	//Filling first row of table with default headers
+	var th1 = document.createElement("th");
+	var th2 = document.createElement("th");
+	var th3 = document.createElement("th");
+	var th4 = document.createElement("th");
+	var th5 = document.createElement("th");
+	var th6 = document.createElement("th");
+	
+	th1.innerHTML = "First Name";
+	th2.innerHTML = "Last Name";
+	th3.innerHTML = "Phone Number";
+	th4.innerHTML = "Email";
+	
+	row.appendChild(th1);
+	row.appendChild(th2);
+	row.appendChild(th3);
+	row.appendChild(th4);
+	row.appendChild(th5);
+	row.appendChild(th6);
+	
+	table.appendChild(row);
+	document.body.appendChild(table);
 }
 
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
@@ -244,7 +272,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	editButton.setAttribute("class","edit");
 	//Add attributes 'data-uid' and 'data-listorder'
 	//contact ID for 'data-uid' should be provided from api/database
-	//'data-listorder' is the row position of the element, can use 
+	//'data-listorder' is the row position of the element (code adjusted to add row to the bottom of table) can use: 
 		//var listOrder = table.length;
 		//editButton.setAttribute("data-listorder", listOrder);
 
@@ -267,7 +295,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
 	//Adjusted to add tr to the bottom of the table; this is to prevent having to update all pre-existing entries' 'data-listorder' attribute
-	var row = table.insertRow();
+	var row = table.insertRow(-1);
 
 	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 	var cell1 = row.insertCell(0);
@@ -379,7 +407,7 @@ function updateContact() {
 		xhr.send(jsonPayload);
 		
 		//Once function is successful in testing
-		//Make function close modal ; code for it:
+		//Make function close modal. Code for it:
 			//var modal = document.getElementById("homeModal");
 			//modal.style.display = "none";
 		//And reload the table (create new table), possibly just do the searchContact() function bc input will still exist from last search
