@@ -209,8 +209,9 @@ function addContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				addContactToTable(newFirstName, newLastName, newPhone, newEmail);
-				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+				addContactToTable(newFirstName, newLastName, newPhone, newEmail, jsonPayload.id);
+				searchContact();
+				//document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
 
