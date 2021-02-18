@@ -293,6 +293,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 		deleteTest(newFirstName, newLastName, newPhone, newEmail);
 		// pass the contact to delete
 		deleteContact(id);
+		searchContact();
 	}
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
@@ -341,7 +342,7 @@ function searchContact()
 		"email": email,
 		"id": userId
 	};
-	var url = urlBase + '/SearchContact.' + extension;
+	var url = urlBase + '/SearchContacts.' + extension;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -459,5 +460,5 @@ function deleteContact(id) {
 }
 
 function initHome() {
-	
+
 }
