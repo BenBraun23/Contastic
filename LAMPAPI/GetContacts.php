@@ -1,21 +1,18 @@
 <?php
 	$inData = getRequestInfo();
 	$id = $inData["id"];
-	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$phone = $inData["phone"];
-	$email = $inData["email"];
 
 	$conn = new mysqli("localhost", "root", "632021Contastic", "Contastic");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error);
 	}
+
 	else
 	{
-		$sql = "SELECT FirstName, LastName, Phone, Email FROM Contacts WHERE FirstName LIKE ? AND LastName LIKE ? AND Phone LIKE ? AND Email LIKE ? AND UserID=?";
+		$sql = "SELECT * FROM Contacts WHERE UserID=?";
 		$stmt = $conn->prepare($sql);
-		$stmt->bind_param("ssdsd", $firstName, $lastName, $phone, $email, $id);
+		$stmt->bind_param("d", $id);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$dataSet = array();
