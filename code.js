@@ -1,10 +1,12 @@
-var urlBase = 'http://www.contastic.rocks/LAMPAPI';
+var urlBase = 'http://contastic.rocks/LAMPAPI';
+//var urlBase = window.location.href;
 var extension = 'php';
 
 var userId = 0;
 var firstName = "";
 var lastName = "";
 
+// Perform login for user
 function doLogin()
 {
 	userId = 0;
@@ -27,13 +29,12 @@ function doLogin()
 	var url = urlBase + '/Login.' + extension;
 
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true); // Changed to true
+	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
 	try
 	{
 		xhr.send(jsonPayload);
-		// Updated try block from friday free for all code session
 		xhr.onreadystatechange = function()
 		{
 			if (this.readyState == 4 && this.status == 200)
@@ -52,7 +53,6 @@ function doLogin()
 
 				saveCookie();
 
-				// Changed html file to home.html as group discussed
 				window.location.href = "home.html";
 			}
 		};
@@ -63,9 +63,7 @@ function doLogin()
 	}
 }
 
-
-
-// Create new login for user 
+// Create new login for user
 function registerUser() {
 
 	firstName = document.getElementById("firstName").value;
@@ -82,11 +80,10 @@ function registerUser() {
 
 	document.getElementById("registerResult").innerHTML = "";
 
-	// Must match API naming scheme
 	var jsonPayload =  `{"firstName" : "${firstName}",
 						"lastName" : "${lastName}",
 						"login" : "${login}",
-						"password" : "${hash}"}`; // Changed to hash
+						"password" : "${hash}"}`;
 
 	var url = urlBase + '/SignUp.' + extension;
 
@@ -113,7 +110,6 @@ function registerUser() {
 
 				saveCookie();
 
-				// Changed html file to home.html as group discussed
 				window.location.href = "home.html";
 			}
 		};
@@ -185,12 +181,18 @@ function addContact()
 
 	document.getElementById("contactAddResult").innerHTML = "";
 
-	// Must match API
+	// Changed from alert pop-up to display error message
+	if (newFirstName == "")
+	{
+		document.getElementById("contactAddResult").innerHTML = "First Name cannot be empty";
+		return;
+	}
+
 	var jsonPayload =  `{"firstName" : "${newFirstName}",
 						"lastName" : "${newLastName}",
 						"phone" : "${newPhone}",
 						"email" : "${newEmail}",
-						"id" : "${userId}"}`; // Changed from userId to id
+						"id" : "${userId}"}`;
 
 
 	var url = urlBase + '/AddContact.' + extension;
@@ -207,15 +209,8 @@ function addContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
-
-				//  Alert when the contact does not have a name.
-				if (newFirstName == "")
-				{
-					alert("You need to add a name");
-					return;
-				}
 				addContactToTable(newFirstName, newLastName, newPhone, newEmail);
+				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
 
@@ -227,36 +222,36 @@ function addContact()
 
 }
 
-//NEW FUNCTION creates table with headers
-//Will be added in other functions such as login and update (delete Table will also need to be created later)
-//Before testing and implementing into other functions, delete hardcoded table included within home.html
-//Implmenting this function will also solve the cell alignment issue in the current version
+// NEW FUNCTION creates table with headers
+// Will be added in other functions such as login and update (delete Table will also need to be created later)
+// Before testing and implementing into other functions, delete hardcoded table included within home.html
+// Implmenting this function will also solve the cell alignment issue in the current version
 function createTable(){
 	var table = document.createElement("table");
 	table.setAttribute("id", "fillContacts");
-	
+
 	var row = table.insertRow(0);
-	
-	//Filling first row of table with default headers
+
+	// Filling first row of table with default headers
 	var th1 = document.createElement("th");
 	var th2 = document.createElement("th");
 	var th3 = document.createElement("th");
 	var th4 = document.createElement("th");
 	var th5 = document.createElement("th");
 	var th6 = document.createElement("th");
-	
+
 	th1.innerHTML = "First Name";
 	th2.innerHTML = "Last Name";
 	th3.innerHTML = "Phone Number";
 	th4.innerHTML = "Email";
-	
+
 	row.appendChild(th1);
 	row.appendChild(th2);
 	row.appendChild(th3);
 	row.appendChild(th4);
 	row.appendChild(th5);
 	row.appendChild(th6);
-	
+
 	table.appendChild(row);
 	document.body.appendChild(table);
 }
@@ -266,8 +261,9 @@ function resetTable() {
 	table.innerHTML = "";
 }
 
-function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
+function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 {
+	//alert(id);
 	// Find a <table> element with id="fillContacts":
 	var table = document.getElementById("fillContacts");
 
@@ -278,7 +274,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	editButton.setAttribute("class","edit");
 	//Add attributes 'data-uid' and 'data-listorder'
 	//contact ID for 'data-uid' should be provided from api/database
-	//'data-listorder' is the row position of the element (code adjusted to add row to the bottom of table) can use: 
+	//'data-listorder' is the row position of the element (code adjusted to add row to the bottom of table) can use:
 		//var listOrder = table.length;
 		//editButton.setAttribute("data-listorder", listOrder);
 
@@ -290,13 +286,13 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 	deleteButton.setAttribute("type","button");
 	deleteButton.setAttribute("class","cross");
 	//Add attribute 'data-uid'
-	
+
 	deleteButton.onclick = function()
 	{
 		// This function is a test. The working version should call deleteContact()
 		deleteTest(newFirstName, newLastName, newPhone, newEmail);
 		// pass the contact to delete
-		deleteContact();
+		deleteContact(id);
 	}
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
@@ -323,10 +319,8 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail)
 // This function is a test. I am testing if the parameters can be pass to this function.
 function deleteTest(newFirstName, newLastName, newPhone, newEmail)
 {
-	window.alert("This button should call the delete() funtion and deletes this contact : " +  newFirstName + " " + newLastName + " "  + newPhone + " " + newEmail );
+	//window.alert("This button should call the delete() funtion and deletes this contact : " +  newFirstName + " " + newLastName + " "  + newPhone + " " + newEmail );
 }
-
-
 
 // Updated Search
 function searchContact()
@@ -346,8 +340,8 @@ function searchContact()
 		"phone": phone,
 		"email": email,
 		"id": userId
-	}; // Changed from userId to id
-	var url = urlBase + '/SearchContact.' + extension; // Changed to match php
+	};
+	var url = urlBase + '/SearchContact.' + extension;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -358,7 +352,6 @@ function searchContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("contactSearchResult").innerHTML = "Contact has been retrieved";
 				var jsonObject = JSON.parse( xhr.responseText );
 
 				// convert JSON to a string
@@ -367,7 +360,7 @@ function searchContact()
 
 				resetTable();
 				jsonObject.forEach(function(user) {
-					addContactToTable(user.firstName, user.lastName, user.phone, user.email);
+					addContactToTable(user.firstName, user.lastName, user.phone, user.email, user.id);
 				})
 
 				for( var i=0; i<jsonObject.results.length; i++ )
@@ -381,7 +374,7 @@ function searchContact()
 				document.getElementsByTagName("p")[0].innerHTML = contactList;
 			}
 		};
-		xhr.send(JSON.stringify(jsonPayload)); // to maket sure it is a string
+		xhr.send(JSON.stringify(jsonPayload)); // to make sure it is a string
 	}
 	catch(err)
 	{
@@ -418,14 +411,14 @@ function updateContact() {
 			}
 		};
 		xhr.send(jsonPayload);
-		
+
 		//Once function is successful in testing
 		//Make function close modal. Code for it:
 			//var modal = document.getElementById("homeModal");
 			//modal.style.display = "none";
 		//And reload the table (create new table), possibly just do the searchContact() function bc input will still exist from last search
 		//If searchContact() function is used, remove the empty search precaution added a while back. If the user never searched anything, and just edited with initial contacts on page then it should return the all contacts
-		
+
 	}
 	catch(err)
 	{
@@ -433,16 +426,14 @@ function updateContact() {
 	}
 }
 
-
-
 // Removes contact
-function deleteContact() {
+function deleteContact(id) {
 
 	// Grab specific contact id (MUST MATCH HTML)
-	var contactID = document.getElementById("contactID").value;
-	document.getElementById("deleteResult").innerHTML = "";
+	var contactID = id;
+	//document.getElementById("deleteResult").innerHTML = "";
 
-
+	//alert(id);
 	// "id" must match API
 	var jsonPayload = '{"id" : "' + contactID + '"}';
 	var url = urlBase + '/DeleteContact.' + extension;
@@ -463,6 +454,10 @@ function deleteContact() {
 	}
 	catch(err)
 	{
-		document.getElementById("deleteResult").innerHTML = err.message;
+		//document.getElementById("deleteResult").innerHTML = err.message;
 	}
+}
+
+function initHome() {
+	
 }
