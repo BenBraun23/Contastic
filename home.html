@@ -1,40 +1,231 @@
 <html>
+<style>
+
+	#fade {
+		background-color: #a0b7ab;
+		margin: -20px auto;
+		height: 100%;
+		width: 100%;
+		animation: welcomeUser 3s;
+		animation-fill-mode: forwards;
+		z-index: 2;
+		position: absolute;
+	}
+
+	#fade p {
+		color: white;
+		text-align: center;
+		font-size: 40px;
+		font-family: arial;
+		padding: 270px 0 0;
+	}
+
+	@keyframes welcomeUser {
+		30% {opacity: 1.0;}
+		100% {opacity: 0;}
+	}
+
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 15%; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      min-width: 740px;
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modal-content {
+        margin: auto;
+        width: 80%;
+        height: 180px;
+        background-color: white;
+        padding: 10px;
+        border-radius: 7px 7px 6px 6px;
+    }
+
+    .modalBar {
+        background-color: #a0b7ab;
+        color: white;
+        width: 100%;
+        margin: -10px 0 10px -10px;
+        padding: 0 20px 0 0;
+        text-align: left;
+        font-weight: bold;
+        float: left;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .edits-input {
+        margin: 5px 10px;
+        padding: 8px;
+        background-color: #e2e2e2;
+        border-radius: 3px;
+        width: 200px;
+        height: 20px;
+        font-size: 18px;
+        text-align: left;
+        color: black;
+        float: left;
+        letter-spacing: 0.2px;
+    }
+
+</style>
+
 <head>
-	<title>Contastic</title>
+	<title>Contastic Home</title>
+
+	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<link rel="icon" href="images/Contastic_Logo.png" type="image/icon type">
+
+	<link href="css/styles.css" rel="stylesheet">
+	<link rel="icon" href="images/cropLogo.png" type="image/icon type">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function()
-	{
-		readCookie();
-	}, false);
+		document.addEventListener('DOMContentLoaded', function()
+		{
+			readCookie();
+		}, false);
 	</script>
 
+
 </head>
-<body>
 
-<h1 id="title">Contastic</h1>
+<body id="bodyHome" onload="searchContact();">
+	
+	<!--
+	<div id= "fade">
+		<p id="userName">Welcome User!</p>
+	</div>
+	 Dont use till utilization fix -->
 
-<div id="loggedInDiv">
-	<span id="userName"></span><br />
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
-</div>
+    <div id="topBar">
+        <div id="logoSec">
+            <img src="images/contasticLogo.png" alt="Contastic" style="height: 80px; margin: 10px;">
+        </div>
 
-<div id="accessUIDiv">
-	<br />
+        <div id="search">
+            <br><div style="margin: -10px 0 0 10px;"> Search </div>
+            <input type="text" id="firstSearch" placeholder="First Name" />
+            <input type="text" id="lastSearch" placeholder="Last Name" />
+            <input type="text" id="phoneSearch" placeholder="Phone #" />
+            <input type="text" id="emailSearch" placeholder="Email" />
 
-	<input type="text" id="searchText" placeholder="Contact To Search For"/>
-	<button type="button" id="searchColorButton" class="buttons" onclick="searchContact();"> Search Contacts </button><br />
-	<span id="contactSearchResult"></span>
-	<p id="contactList">
-	</p><br /><br />
+            <button type="button" class="button" onclick="searchContact();"> <i class="fa fa-search"></i> </button>
 
-	<input type="text" id="contactText" placeholder="Contact To Add">
-	<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button><br />
-	<span id="contactAddResult"></span>
-</div>
+            <div id="contactSearchResult"> </div>
+            <!-- ^ take out the above after trial testing is done -->
+            <p id="contactList">
+            <!-- ^ remove after js is edited to create html -->
+        </div>
+    </div>
 
-</body>
-</html>
+    <div id="userProfile">
+        <p id="userName" style="color:#171a17; padding: 70px 0 0 0; font-weight: bold;">  </p>
+        <div id="userAvatar"></div>
+        <p style="color:#171a17;"> Maybe put user info here? </p>
+        <br/><br/><br/><br/><br/>
+        <button type="button" class="button" onclick="doLogout();"> LOG OUT </button> <br/><br/>
+        <button type="button" class="button" onclick="      "> ADD CONTACT PLACEHOLDER (PH) </button>
+    </div>
+
+    <div id="addContacts">
+        <div id="label" style="margin: 10px 0 0 10px;"> Add Contact (Testing, temporary position)</div>
+        <input type="text" style="border: 1px solid black;" id="firstName" placeholder="First Name" />
+        <input type="text" style="border: 1px solid black;" id="lastName" placeholder="Last Name" />
+        <input type="tel" style="border: 1px solid black;" id="phone" placeholder="Phone# (123) 456-7890" />
+        <input type="email" style="border: 1px solid black;" id="email" placeholder="Email" />
+        <!-- Review & Add input requirements-->
+
+        <button type="button" class="button" onclick="addContact();"> Add Contact </button>
+        <div id="contactAddResult"> </div>
+    </div>
+
+	<div id="homeModal" class="modal">
+		<div class="modal-content">
+			<div class="modalBar">
+				<div style="margin: 10px;"> Edit Contact </div>
+			</div>
+
+			<div id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
+			<div id="lastEdit" class="edits-input" contenteditable="true"> Last Name </div>
+			<div id="phoneEdit" class="edits-input" contenteditable="true"> Phone Number </div>
+			<div id="emailEdit" class="edits-input" contenteditable="true"> Email </div>
+			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
+
+			<button type="button" class="button" onclick="updateContact();"> Update </button>
+
+			<span id="updateResult" style="color: red;"> </span>
+			<!-- ^remove after testing -->
+		</div>
+	</div>
+
+    <table>
+        <tr>
+            <th> First Name </th>
+            <th> Last Name </th>
+            <th> Phone Number </th>
+            <th> Email </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        <tr>
+            <td> Default_1 </td>
+            <td> Default_2 </td>
+            <td> Default_3 </td>
+            <td> Default@gmail.com </td>
+            <td><button type="button" class="edit" data-uid="Default_UID" data-listorder="NA"> &#9998; </button></td>
+            <td><button type="button" class="cross" onclick=" "> &#10006; </button></td>
+        </tr>
+    </table>
+
+	<table id="fillContacts"></table>
+
+<script>
+    var modal = document.getElementById("homeModal");
+    var editBtns = document.getElementsByClassName("edit");
+
+    //copying contact info into modal to edit
+    var openModal = function() {
+        var UID = this.getAttribute("data-uid");
+        var row = this.getAttribute("data-listorder");
+
+        var info = document.getElementsByTagName("td");
+
+        var firstName = info[row * 6].innerHTML;
+        document.getElementById("firstEdit").innerHTML = firstName;
+
+        var lastName = info[row * 6 + 1].innerHTML;
+        document.getElementById("lastEdit").innerHTML = lastName;
+
+        var phone = info[row * 6 + 2].innerHTML;
+        document.getElementById("phoneEdit").innerHTML = phone;
+
+        var email = info[row * 6 + 3].innerHTML;
+        document.getElementById("emailEdit").innerHTML = email;
+
+        document.getElementById("uid").innerHTML = UID;
+
+        modal.style.display = "block";
+    }
+
+    //adding click event to all edit buttons
+    for (var i=0 ; i < editBtns.length ; i++) {
+        editBtns[i].addEventListener('click', openModal, false);
+    }
+
+    //click on window screen (off modal) to close
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
