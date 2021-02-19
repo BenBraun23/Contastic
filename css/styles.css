@@ -275,20 +275,19 @@ tr:hover {
 	color: white;
 }
 
-#homeModal .button {
-	margin: 5px 10px;
-	width: 100px;
-	height: 35px;
-	background-color: #242424;
+.modal .button {
+	margin: 18px 15px;
+	width: 130px;
+	height: 30px;
+	background-color: #2b2b2b;
 	border-radius: 3px;
 	border-style: none;
 	color: white;
 	font-size: 15px;
-	float: left;
 	letter-spacing: 0.5px;
 }
 
-#homeModal .button:hover {
+.modal .button:hover {
 	background-color: #636363;
 	cursor: pointer;
 }
