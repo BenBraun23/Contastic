@@ -52,7 +52,7 @@ function doLogin()
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-
+				
 				window.location.href = "home.html";
 			}
 		};
@@ -109,7 +109,7 @@ function registerUser() {
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-
+				
 				window.location.href = "home.html";
 			}
 		};
@@ -223,15 +223,21 @@ function addContact()
 
 }
 
-// NEW FUNCTION creates table with headers
-// Will be added in other functions such as login and update (delete Table will also need to be created later)
-// Before testing and implementing into other functions, delete hardcoded table included within home.html
-// Implmenting this function will also solve the cell alignment issue in the current version
-function createTable(){
-	var table = document.createElement("table");
+function homeStartUp() {
+  var table = document.createElement("table");
 	table.setAttribute("id", "fillContacts");
+ 	document.body.appendChild(table);
+
+  createTableHeaders();
+  searchContact();
+}
+
+// Creates table headers
+function createTableHeaders(){
+	var table = document.getElementById("fillContacts");
 
 	var row = table.insertRow(0);
+  row.style.background = "none";
 
 	// Filling first row of table with default headers
 	var th1 = document.createElement("th");
@@ -254,12 +260,13 @@ function createTable(){
 	row.appendChild(th6);
 
 	table.appendChild(row);
-	document.body.appendChild(table);
 }
 
 function resetTable() {
 	var table = document.getElementById('fillContacts');
 	table.innerHTML = "";
+	createTableHeaders();
+   //testing code
 }
 
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
@@ -273,11 +280,6 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 	editButton.innerHTML = "&#9998;";
 	editButton.setAttribute("type","button");
 	editButton.setAttribute("class","edit");
-	//Add attributes 'data-uid' and 'data-listorder'
-	//contact ID for 'data-uid' should be provided from api/database
-	//'data-listorder' is the row position of the element (code adjusted to add row to the bottom of table) can use:
-		//var listOrder = table.length;
-		//editButton.setAttribute("data-listorder", listOrder);
 
 	editButton.onclick = function() {
 		openModal({ id: id, firstName: newFirstName, lastName: newLastName, phone: newPhone, email: newEmail }); 
@@ -393,7 +395,7 @@ function openModal(user) {
 	form.onsubmit = updateContact;
 
 	//modal.classList.toggle('modal-open');
-  modal.style.display = "block";
+	modal.style.display = "block";
 	
 	document.getElementById("firstEdit").value = user.firstName;
 	document.getElementById("lastEdit").value = user.lastName;
@@ -415,7 +417,6 @@ function updateContact(event) {
 	var updatePhone = document.getElementById("phoneEdit").value;
 	var contactID = document.getElementById("uid").value;
 	document.getElementById("updateResult").innerHTML = "";
-   	//Changed IDs to comply with unique html ID req
 
 	var jsonPayload = '{"firstName" : "' + updateFirstName + '", "lastName" : "' + updateLastName +'", "email" : "' + updateEmail + '", "phone" : "' + updatePhone + '", "id" : "' + contactID + '"}';
 
@@ -437,13 +438,6 @@ function updateContact(event) {
 			}
 		};
 		xhr.send(jsonPayload);
-
-		//Once function is successful in testing
-		//Make function close modal. Code for it:
-			//var modal = document.getElementById("homeModal");
-			//modal.style.display = "none";
-		//And reload the table (create new table), possibly just do the searchContact() function bc input will still exist from last search
-		//If searchContact() function is used, remove the empty search precaution added a while back. If the user never searched anything, and just edited with initial contacts on page then it should return the all contacts
 
 	}
 	catch(err)
