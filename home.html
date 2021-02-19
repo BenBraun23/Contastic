@@ -40,6 +40,10 @@
       background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
 
+    .modal-open {
+        display: block;
+    }
+
     .modal-content {
         margin: auto;
         width: 80%;
@@ -61,19 +65,20 @@
         border-radius: 6px 6px 0 0;
     }
 
-    .edits-input {
+.modal input {
         margin: 5px 10px;
-        padding: 8px;
+        padding: 10px 8px;
         background-color: #e2e2e2;
         border-radius: 3px;
-        width: 200px;
-        height: 20px;
+        width: 215px;
+        height: 37px;
         font-size: 18px;
         text-align: left;
         color: black;
         float: left;
         letter-spacing: 0.2px;
-    }
+        border-style: none;
+}
 
 </style>
 
@@ -98,11 +103,11 @@
 
 </head>
 
-<body id="bodyHome">
-
+<body id="bodyHome" onload="searchContact();">
+	
 	<!--
 	<div id= "fade">
-		<p id="userName">Welcome User!</p> 
+		<p id="userName">Welcome User!</p>
 	</div>
 	 Dont use till utilization fix -->
 
@@ -124,7 +129,7 @@
             <!-- ^ take out the above after trial testing is done -->
             <p id="contactList">
             <!-- ^ remove after js is edited to create html -->
-        </div> 
+        </div>
     </div>
 
     <div id="userProfile">
@@ -154,16 +159,18 @@
 				<div style="margin: 10px;"> Edit Contact </div>
 			</div>
 
-			<div id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
-			<div id="lastEdit" class="edits-input" contenteditable="true"> Last Name </div>
-			<div id="phoneEdit" class="edits-input" contenteditable="true"> Phone Number </div>
-			<div id="emailEdit" class="edits-input" contenteditable="true"> Email </div>
-			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
-			
-			<button type="button" class="button" onclick="updateContact();"> Update </button>
+      <form id="update-contact">
+        <input type="text" id="firstEdit" class="edits-input" value="" placeholder="First Name"/>
+        <input type="text" id="lastEdit" class="edits-input" value="" placeholder="Last Name"/>
+        <input type="text" id="phoneEdit" class="edits-input" value="" placeholder="Phone"/>
+        <input type="text" id="emailEdit" class="edits-input" value="" placeholder="Email"/>
+        <div id="uid" class="edits-input" hidden></div>
+        <button type="submit" class="button"> Update </button>
+      </form>
 
 			<span id="updateResult" style="color: red;"> </span>
 			<!-- ^remove after testing -->
+      
 		</div>
 	</div>
 
@@ -181,53 +188,20 @@
             <td> Default_2 </td>
             <td> Default_3 </td>
             <td> Default@gmail.com </td>
+            <td><button type="button" class="edit" data-uid="Default_UID" data-listorder="NA"> &#9998; </button></td>
             <td><button type="button" class="cross" onclick=" "> &#10006; </button></td>
-            <td><button type="button" class="edit" data-uid="Default_UID" data-listorder="0"> &#9998; </button></td>
         </tr>
     </table>
 
 	<table id="fillContacts"></table>
+</body>
 
 <script>
-    var modal = document.getElementById("homeModal");
-    var editBtns = document.getElementsByClassName("edit");
-
-    //copying contact info into modal to edit
-    var openModal = function() {
-        var UID = this.getAttribute("data-uid");
-        var row = this.getAttribute("data-listorder");
-
-        var info = document.getElementsByTagName("td");
-        
-        var firstName = info[row * 6].innerHTML;
-        document.getElementById("firstEdit").innerHTML = firstName;
-
-        var lastName = info[row * 6 + 1].innerHTML;
-        document.getElementById("lastEdit").innerHTML = lastName;
-
-        var phone = info[row * 6 + 2].innerHTML;
-        document.getElementById("phoneEdit").innerHTML = phone;
-
-        var email = info[row * 6 + 3].innerHTML;
-        document.getElementById("emailEdit").innerHTML = email;
-
-        document.getElementById("uid").innerHTML = UID;
-
-        modal.style.display = "block";
-    }
-
-    //adding click event to all edit buttons
-    for (var i=0 ; i < editBtns.length ; i++) {
-        editBtns[i].addEventListener('click', openModal, false);
-    }
-
-    //click on window screen (off modal) to close
-    window.onclick = function(event) {
+  var modal = document.getElementById("homeModal");
+  window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-    
 </script>
-
-</body>
+</html>
