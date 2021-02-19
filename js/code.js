@@ -241,6 +241,16 @@ function homeStartUp() {
   searchContact();
 }
 
+function viewAllContacts() {
+  //clears search fields first
+  document.getElementById('firstSearch').value = '';
+  document.getElementById('lastSearch').value = ''
+  document.getElementById('phoneSearch').value = ''
+  document.getElementById('emailSearch').value = ''
+
+  searchContact();
+}
+
 // Creates table headers
 function createTableHeaders(){
 	var table = document.getElementById("fillContacts");
@@ -275,7 +285,6 @@ function resetTable() {
 	var table = document.getElementById('fillContacts');
 	table.innerHTML = "";
 	createTableHeaders();
-   //testing code
 }
 
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
@@ -474,8 +483,8 @@ function deleteContact(id) {
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("updateResult").innerHTML = "Contact has been deleted";
         searchContact();
+				document.getElementById("updateResult").innerHTML = "Contact has been deleted";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -484,8 +493,4 @@ function deleteContact(id) {
 	{
 		//document.getElementById("deleteResult").innerHTML = err.message;
 	}
-}
-
-function initHome() {
-
 }
