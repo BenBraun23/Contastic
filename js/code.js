@@ -212,6 +212,15 @@ function addContact()
 				addContactToTable(newFirstName, newLastName, newPhone, newEmail, jsonPayload.id);
 				searchContact();
 				//document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+        
+        //Closing modal
+        var modal = document.getElementById('addModal');
+      	modal.style.display = "none";
+        //clearing fields in modal for additional contacts
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = ''
+        document.getElementById('phone').value = ''
+        document.getElementById('email').value = ''
 			}
 		};
 
@@ -290,7 +299,6 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 	deleteButton.innerHTML = "&#10006;";
 	deleteButton.setAttribute("type","button");
 	deleteButton.setAttribute("class","cross");
-	//Add attribute 'data-uid'
 
 	deleteButton.onclick = function()
 	{
@@ -302,8 +310,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 	}
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
-	//Adjusted to add tr to the bottom of the table; this is to prevent having to update all pre-existing entries' 'data-listorder' attribute
-	var row = table.insertRow(-1);
+	var row = table.insertRow(1);
 
 	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 	var cell1 = row.insertCell(0);
@@ -468,6 +475,7 @@ function deleteContact(id) {
 			if (this.readyState == 4 && this.status == 200)
 			{
 				document.getElementById("updateResult").innerHTML = "Contact has been deleted";
+        searchContact();
 			}
 		};
 		xhr.send(jsonPayload);
