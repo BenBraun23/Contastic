@@ -40,6 +40,10 @@
       background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
 
+    .modal-open {
+        display: block;
+    }
+
     .modal-content {
         margin: auto;
         width: 80%;
@@ -154,13 +158,20 @@
 				<div style="margin: 10px;"> Edit Contact </div>
 			</div>
 
-			<div id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
+            <form id="update-contact">
+                <input id="firstEdit" class="edits-input" value="" placeholder="First Name"/>
+                <input id="lastEdit" class="edits-input" value="" placeholder="Last Name"/>
+                <input id="phoneEdit" class="edits-input" value="" placeholder="Phone"/>
+                <input id="emailEdit" class="edits-input" value="" placeholder="Email"/>
+                <div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
+                <button type="submit" class="button"> Update </button>
+            </form>
+			<!-- <input id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
 			<div id="lastEdit" class="edits-input" contenteditable="true"> Last Name </div>
 			<div id="phoneEdit" class="edits-input" contenteditable="true"> Phone Number </div>
 			<div id="emailEdit" class="edits-input" contenteditable="true"> Email </div>
-			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
+			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div> -->
 
-			<button type="button" class="button" onclick="updateContact();"> Update </button>
 
 			<span id="updateResult" style="color: red;"> </span>
 			<!-- ^remove after testing -->
@@ -189,43 +200,43 @@
 	<table id="fillContacts"></table>
 
 <script>
-    var modal = document.getElementById("homeModal");
-    var editBtns = document.getElementsByClassName("edit");
+    // var modal = document.getElementById("homeModal");
+    // var editBtns = document.getElementsByClassName("edit");
 
     //copying contact info into modal to edit
-    var openModal = function() {
-        var UID = this.getAttribute("data-uid");
-        var row = this.getAttribute("data-listorder");
+    // var openModal = function() {
+    //     var UID = this.getAttribute("data-uid");
+    //     var row = this.getAttribute("data-listorder");
 
-        var info = document.getElementsByTagName("td");
+    //     var info = document.getElementsByTagName("td");
 
-        var firstName = info[row * 6].innerHTML;
-        document.getElementById("firstEdit").innerHTML = firstName;
+    //     var firstName = info[row * 6].innerHTML;
+    //     document.getElementById("firstEdit").innerHTML = firstName;
 
-        var lastName = info[row * 6 + 1].innerHTML;
-        document.getElementById("lastEdit").innerHTML = lastName;
+    //     var lastName = info[row * 6 + 1].innerHTML;
+    //     document.getElementById("lastEdit").innerHTML = lastName;
 
-        var phone = info[row * 6 + 2].innerHTML;
-        document.getElementById("phoneEdit").innerHTML = phone;
+    //     var phone = info[row * 6 + 2].innerHTML;
+    //     document.getElementById("phoneEdit").innerHTML = phone;
 
-        var email = info[row * 6 + 3].innerHTML;
-        document.getElementById("emailEdit").innerHTML = email;
+    //     var email = info[row * 6 + 3].innerHTML;
+    //     document.getElementById("emailEdit").innerHTML = email;
 
-        document.getElementById("uid").innerHTML = UID;
+    //     document.getElementById("uid").innerHTML = UID;
 
-        modal.style.display = "block";
-    }
+    //     modal.style.display = "block";
+    // }
 
     //adding click event to all edit buttons
-    for (var i=0 ; i < editBtns.length ; i++) {
-        editBtns[i].addEventListener('click', openModal, false);
-    }
+    // for (var i=0 ; i < editBtns.length ; i++) {
+    //     editBtns[i].addEventListener('click', openModal, false);
+    // }
 
     //click on window screen (off modal) to close
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+     window.onclick = function(event) {
+         if (event.target == modal) {
+             modal.style.display = "none";
+         }
+     }
 
 </script>
