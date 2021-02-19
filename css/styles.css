@@ -194,17 +194,12 @@ th {
 	border-right: none;
 	border-left: none;
 	padding: 17px 8px 10px 20px;
-	coor: #242424;
-		font-size: 16px;
+	color: #242424;
+  font-size: 16px;
 }
 
 tr:hover {
 	background-color: #f0fbff;
-}
-
-
-tr:nth-child(1):hover {
-	background: none;
 }
 
 #addContacts {
