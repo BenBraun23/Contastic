@@ -68,7 +68,7 @@
         padding: 0px 8px;
         background-color: white;
 	border: 1px solid lightgrey;
-        border-radius: 0 3px 3px 0;
+        border-radius: 0 4px 4px 0;
         width: 450px;
         height: 36px;
         font-size: 17px;
@@ -98,7 +98,7 @@
         padding: 10px 8px;
         background-color: white;
 	border: 1px solid lightgrey;
-        border-radius: 0 3px 3px 0;
+        border-radius: 0 4px 4px 0;
         width: 235px;
         height: 36px;
         font-size: 17px;
@@ -130,7 +130,7 @@
 	height: 23px;
 	margin: 0;
 	border-radius: 3px 0 0 3px;
-	padding: 6px 6px 7px 7px;
+	padding: 6px 6px 7px 6px;
 	background-color: grey;
 	vertical-align: bottom;
 }
@@ -139,6 +139,29 @@
 	margin: 10px auto;
 	width: 520px;
   height: 40px;
+}
+
+.notification {
+	width: 150px;
+	background-color: rgba(148, 217, 255, 0.8);
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	padding: 10px;
+	color: white;
+	font-size: 13px;
+	font-weight: bold;
+	z-index: 2;
+	border-radius: 50px;
+	box-shadow: 0 0 1px grey;
+	animation: notifMove 4s forwards;
+}
+
+@keyframes notifMove {
+	0% {top: -40;}
+	35% {top: 20px;}
+	65% {top: 20px;}
+	100% {top: -40;}
 }
 
 </style>
@@ -165,7 +188,14 @@
 </head>
 
 <body id="bodyHome" onload="homeStartUp();">
+	<div id="updateNotif" hidden>
+		Contact Updated!
+	</div>
 	
+	<div id="addNotif" hidden>
+		Contact Added!
+	</div>
+ 
 	<!--
 	<div id= "fade">
 		<p id="userName">Welcome User!</p>
