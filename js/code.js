@@ -221,6 +221,8 @@ function addContact()
         document.getElementById('lastName').value = ''
         document.getElementById('phone').value = ''
         document.getElementById('email').value = ''
+        
+        addNotification();
 			}
 		};
 
@@ -244,9 +246,9 @@ function homeStartUp() {
 function viewAllContacts() {
   //clears search fields first
   document.getElementById('firstSearch').value = '';
-  document.getElementById('lastSearch').value = ''
-  document.getElementById('phoneSearch').value = ''
-  document.getElementById('emailSearch').value = ''
+  document.getElementById('lastSearch').value = '';
+  document.getElementById('phoneSearch').value = '';
+  document.getElementById('emailSearch').value = '';
 
   searchContact();
 }
@@ -381,19 +383,16 @@ function searchContact()
 				// alert(str);
 
 				resetTable();
+        
 				jsonObject.forEach(function(user) {
 					addContactToTable(user.firstName, user.lastName, user.phone, user.email, user.id);
 				})
-
-				for( var i=0; i<jsonObject.results.length; i++ )
-				{
-					contactList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactList += "<br />\r\n";
-					}
-				}
-				document.getElementsByTagName("p")[0].innerHTML = contactList;
+        
+          document.getElementById('firstSearch').value = '';
+          document.getElementById('lastSearch').value = '';
+          document.getElementById('phoneSearch').value = '';
+          document.getElementById('emailSearch').value = '';
+        
 			}
 		};
 		xhr.send(JSON.stringify(jsonPayload)); // to make sure it is a string
@@ -451,6 +450,7 @@ function updateContact(event) {
 				document.getElementById("updateResult").innerHTML = "Contact has been updated";
 				closeModal();
 				searchContact();
+        updateNotification();
 			}
 		};
 		xhr.send(jsonPayload);
@@ -493,4 +493,24 @@ function deleteContact(id) {
 	{
 		//document.getElementById("deleteResult").innerHTML = err.message;
 	}
+}
+
+function updateNotification(){
+	var notif = document.getElementById("updateNotif");
+	notif.setAttribute("class", "notification");
+	notif.removeAttribute("hidden");
+	document.body.removeChild(notif);
+	document.body.appendChild(notif);
+}
+
+function addNotification(){
+	var notif = document.getElementById("addNotif");
+	notif.setAttribute("class", "notification");
+	notif.removeAttribute("hidden");
+	document.body.removeChild(notif);
+	document.body.appendChild(notif);
+}
+
+function initHome() {
+
 }
