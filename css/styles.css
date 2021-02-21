@@ -41,6 +41,18 @@ label {
 	color: #999999;
 }
 
+#passwordResult {
+	color: red;
+}
+
+.info i {
+	color: #454545;
+	cursor: pointer;
+	margin: 12px 0 0 -30px;
+	position: fixed;
+	z-index: 10;
+}
+
 .info {
 	text-align: left;
 	color: grey;
