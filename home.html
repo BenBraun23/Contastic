@@ -29,7 +29,7 @@
       display: none; /* Hidden by default */
       position: fixed; /* Stay in place */
       z-index: 1; /* Sit on top */
-      padding-top: 15%; /* Location of the box */
+      padding-top: 10%; /* Location of the box */
       left: 0;
       top: 0;
       width: 100%; /* Full width */
@@ -42,11 +42,12 @@
 
     .modal-content {
         margin: auto;
-        width: 80%;
-        height: 180px;
+        width: 40%;
+	min-width: 530px;
         background-color: white;
         padding: 10px;
         border-radius: 7px 7px 6px 6px;
+	box-shadow: 0 0 10px grey;
     }
 
     .modalBar {
@@ -61,20 +62,114 @@
         border-radius: 6px 6px 0 0;
     }
 
-    .edits-input {
-        margin: 5px 10px;
-        padding: 8px;
-        background-color: #e2e2e2;
-        border-radius: 3px;
-        width: 200px;
-        height: 20px;
-        font-size: 18px;
+.modal input {
+	margin: 2px 0 0;
+        padding: 0px 8px;
+        background-color: white;
+	border: 1px solid lightgrey;
+        border-radius: 0 4px 4px 0;
+        width: 450px;
+        height: 36px;
+        font-size: 17px;
         text-align: left;
         color: black;
-        float: left;
-        letter-spacing: 0.2px;
-    }
+        letter-spacing: 0.1px;
+	box-shadow: 0 0 1px lightgrey;
+}
 
+.modal .fname {
+	margin: 0;
+        padding: 10px 8px;
+        background-color: white;
+	border: 1px solid lightgrey;
+        border-radius: 0;
+        width: 215px;
+        height: 36px;
+        font-size: 17px;
+        text-align: left;
+        color: black;
+        letter-spacing: 0.1px;
+        border-right: 2px solid lightgrey;
+}
+
+.modal .lname {
+	margin: 0 0 0 -5px;
+        padding: 10px 8px;
+        background-color: white;
+	border: 1px solid lightgrey;
+        border-radius: 0 4px 4px 0;
+        width: 235px;
+        height: 36px;
+        font-size: 17px;
+        text-align: left;
+        color: black;
+        letter-spacing: 0.1px;
+}
+
+.personIcon {
+	height: 22px;
+	margin: 0;
+	border-radius: 3px 0 0 3px;
+	padding: 7px 8px;
+	background-color: grey;
+	vertical-align: bottom;
+}
+
+.mailIcon {
+	margin: 0;
+	border-radius: 3px 0 0 3px;
+	padding: 0 3px 1px;
+	background-color: grey;
+	color: white;
+	font-size: 31px;
+	vertical-align: bottom;
+}
+
+.phoneIcon {
+	height: 23px;
+	margin: 0;
+	border-radius: 3px 0 0 3px;
+	padding: 6px 6px 7px 6px;
+	background-color: grey;
+	vertical-align: bottom;
+}
+
+.editRow {
+	margin: 10px auto;
+	width: 520px;
+  height: 40px;
+}
+
+.notification {
+	width: 150px;
+	background-color: rgba(0, 0, 0, 0.8);
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	padding: 10px;
+	color: white;
+	font-size: 13px;
+	font-weight: bold;
+	z-index: 2;
+	border-radius: 50px;
+	box-shadow: 0 0 1px grey;
+	animation: notifMove 4s forwards;
+}
+
+@keyframes notifMove {
+	0% {top: -40;}
+	35% {top: 20px;}
+	65% {top: 20px;}
+	100% {top: -40;}
+}
+
+#contactAddResult {
+	margin: 0 auto;
+	color: red;
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: 0.1px;
+}
 </style>
 
 <head>
@@ -98,8 +193,19 @@
 
 </head>
 
-<body id="bodyHome" onload="searchContact();">
-	
+<body id="bodyHome" onload="homeStartUp();">
+	<div id="updateNotif" hidden>
+		Contact Updated!
+	</div>
+
+	<div id="addNotif" hidden>
+		Contact Added!
+	</div>
+
+	<div id="deleteNotif" hidden>
+		Contact Deleted!
+	</div>
+
 	<!--
 	<div id= "fade">
 		<p id="userName">Welcome User!</p>
@@ -122,8 +228,6 @@
 
             <div id="contactSearchResult"> </div>
             <!-- ^ take out the above after trial testing is done -->
-            <p id="contactList">
-            <!-- ^ remove after js is edited to create html -->
         </div>
     </div>
 
@@ -132,21 +236,45 @@
         <div id="userAvatar"></div>
         <p style="color:#171a17;"> Maybe put user info here? </p>
         <br/><br/><br/><br/><br/>
-        <button type="button" class="button" onclick="doLogout();"> LOG OUT </button> <br/><br/>
-        <button type="button" class="button" onclick="      "> ADD CONTACT PLACEHOLDER (PH) </button>
+
+        <button type="button" class="button" id="addButton" onclick="document.getElementById('addModal').style.display = 'block';"> ADD CONTACT </button> <br/><br/>
+        <button type="button" class="button" id="allContact" onclick="viewAllContacts();"> VIEW ALL CONTACTS </button> <br/><br/>
+        <button type="button" class="button" onclick="doLogout();"> LOG OUT </button>
     </div>
 
-    <div id="addContacts">
-        <div id="label" style="margin: 10px 0 0 10px;"> Add Contact (Testing, temporary position)</div>
-        <input type="text" style="border: 1px solid black;" id="firstName" placeholder="First Name" />
-        <input type="text" style="border: 1px solid black;" id="lastName" placeholder="Last Name" />
-        <input type="tel" style="border: 1px solid black;" id="phone" placeholder="Phone# (123) 456-7890" />
-        <input type="email" style="border: 1px solid black;" id="email" placeholder="Email" />
-        <!-- Review & Add input requirements-->
+	<div id="addModal" class="modal">
+		<div class="modal-content">
+			<div class="modalBar">
+				<div style="margin: 10px;"> Add New Contact </div>
+			</div>
 
-        <button type="button" class="button" onclick="addContact();"> Add Contact </button>
-        <div id="contactAddResult"> </div>
-    </div>
+			<div class="editRow" style="margin: 60px auto 10px;">
+				<img src="images/personIcon.png" alt="person icon" class="personIcon">
+				<input type="text" id="firstName" class="fName" placeholder="First Name"/>
+				<input type="text" id="lastName" class="lName" placeholder="Last Name"/>
+			</div>
+
+      <div id="addError" style ="margin: -15px auto 0; width: 520px; height: 20px;" hidden>
+	      <span id="contactAddResult">*First name required</span>
+	      <div style ="display: inline; padding:0 135px;"> </div>
+      </div>
+
+			<div class="editRow">
+				<img src="images/phoneIcon.png" alt="phone icon" class="phoneIcon">
+				<input type="text" id="phone" placeholder="Phone #"/>
+			</div>
+
+			<div class="editRow">
+				<span class="mailIcon"> &#9993;</span>
+				<input type="text" id="email" placeholder="Email"/>
+			</div>
+
+			<button type="button" class="button" onclick="addContact();"> Add Contact </button>
+			<button type="button" class="button" onclick="document.getElementById('addModal').style.display = 'none'; document.getElementById('addError').style.display = 'none';"> Cancel </button>
+			<div id="contactAddResult"> </div>
+			<!-- REMOVE AFTER TESTING -->
+		</div>
+	</div>
 
 	<div id="homeModal" class="modal">
 		<div class="modal-content">
@@ -154,78 +282,75 @@
 				<div style="margin: 10px;"> Edit Contact </div>
 			</div>
 
-			<div id="firstEdit" class="edits-input" contenteditable="true"> First Name </div>
-			<div id="lastEdit" class="edits-input" contenteditable="true"> Last Name </div>
-			<div id="phoneEdit" class="edits-input" contenteditable="true"> Phone Number </div>
-			<div id="emailEdit" class="edits-input" contenteditable="true"> Email </div>
-			<div id="uid" class="edits-input" title="showing for testing purposes"> UID </div>
+		<form id="update-contact">
+			<div class="editRow" style="margin: 60px auto 10px;">
+				<img src="images/personIcon.png" alt="person icon" class="personIcon">
+				<input type="text" id="firstEdit" class="fName" value="" placeholder="First Name"/>
+				<input type="text" id="lastEdit" class="lName" value="" placeholder="Last Name"/>
+			</div>
 
-			<button type="button" class="button" onclick="updateContact();"> Update </button>
+			<div class="editRow">
+				<img src="images/phoneIcon.png" alt="phone icon" class="phoneIcon">
+				<input type="text" id="phoneEdit" value="" placeholder="Phone #"/>
+			</div>
 
-			<span id="updateResult" style="color: red;"> </span>
-			<!-- ^remove after testing -->
+			<div class="editRow">
+				<span class="mailIcon"> &#9993;</span>
+				<input type="text" id="emailEdit" value="" placeholder="Email"/>
+			</div>
+
+			<div id="uid" hidden></div>
+
+			<button type="submit" class="button"> Update </button>
+			<button type="button" class="button" onclick="closeModal();"> Cancel </button>
+							<!-- ^ REPLACE WITH REAL FUNCTION -->
+		</form>
+
+		<span id="updateResult" style="color: red;"> </span>
+		<!-- ^remove after testing -->
+
 		</div>
 	</div>
 
-    <table>
-        <tr>
-            <th> First Name </th>
-            <th> Last Name </th>
-            <th> Phone Number </th>
-            <th> Email </th>
-            <th> </th>
-            <th> </th>
-        </tr>
-        <tr>
-            <td> Default_1 </td>
-            <td> Default_2 </td>
-            <td> Default_3 </td>
-            <td> Default@gmail.com </td>
-            <td><button type="button" class="edit" data-uid="Default_UID" data-listorder="NA"> &#9998; </button></td>
-            <td><button type="button" class="cross" onclick=" "> &#10006; </button></td>
-        </tr>
-    </table>
+	<div id="deleteModal" class="modal">
+		<div class="modal-content">
+			<div class="modalBar">
+				<div style="margin: 10px;"> Confirm Delete </div>
+			</div>
 
-	<table id="fillContacts"></table>
+			<div class="modal-body" style="margin: 60px auto 10px;">
+				<p> Are you sure you want to delete contact?</p>
+			</div>
+
+
+			<button type="button" class="button" onclick="deleteContact(document.getElementById('uid').value);"> Delete Contact </button>
+			<button type="button" class="button" onclick="document.getElementById('deleteModal').style.display = 'none';"> Cancel </button>
+			<div id="contactDeleteResult"> </div>
+			<!-- REMOVE AFTER TESTING -->
+		</div>
+	</div>
+
+
+</body>
 
 <script>
-    var modal = document.getElementById("homeModal");
-    var editBtns = document.getElementsByClassName("edit");
+  var modalHome = document.getElementById("homeModal");
+  var modalAdd = document.getElementById("addModal");
+  var modalDelete = document.getElementById("deleteModal");
 
-    //copying contact info into modal to edit
-    var openModal = function() {
-        var UID = this.getAttribute("data-uid");
-        var row = this.getAttribute("data-listorder");
-
-        var info = document.getElementsByTagName("td");
-
-        var firstName = info[row * 6].innerHTML;
-        document.getElementById("firstEdit").innerHTML = firstName;
-
-        var lastName = info[row * 6 + 1].innerHTML;
-        document.getElementById("lastEdit").innerHTML = lastName;
-
-        var phone = info[row * 6 + 2].innerHTML;
-        document.getElementById("phoneEdit").innerHTML = phone;
-
-        var email = info[row * 6 + 3].innerHTML;
-        document.getElementById("emailEdit").innerHTML = email;
-
-        document.getElementById("uid").innerHTML = UID;
-
-        modal.style.display = "block";
-    }
-
-    //adding click event to all edit buttons
-    for (var i=0 ; i < editBtns.length ; i++) {
-        editBtns[i].addEventListener('click', openModal, false);
-    }
-
-    //click on window screen (off modal) to close
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+  window.onclick = function(event) {
+        if (event.target == modalAdd) {
+            modalAdd.style.display = "none";
+            document.getElementById("addError").style.display = "none";
+        }
+		if (event.target == modalDelete) {
+			modalAdd.style.display = "none";
+		}
+        if (event.target == modalHome) {
+            modalHome.style.display = "none";
         }
     }
 
+
 </script>
+</html>
