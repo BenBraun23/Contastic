@@ -1,14 +1,15 @@
 <html>
 <head>
 	<title>Contastic Login</title>
-	
+
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
 
 	<link href="css/styles.css" rel="stylesheet">
 	<link rel="icon" href="images/cropLogo.png" type="image/icon type">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="stylesheet" href=https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 
 <body>
@@ -16,22 +17,35 @@
 	<div id="content">
 		<img src="images/cropLogo.png" alt="Contastic" style="height: 60px; vertical-align: middle;">
 		<span style="font-size: 45px; font-family:'Exo', sans-serif; vertical-align: middle; padding: 0 10px;"> CONTASTIC </span>
-	
+
 		<div class="info">
 			<div id="category"> Login </div>
 
 			<label for="username"> Username </label><br/>
 			<input type="text" id="loginName" autofocus required /><br/><br/>
-			
-			<label for="password"> Password </label><br/>
-			<input type="password" id="loginPassword" required /><br/><br/><br/>
 
-			<button type="button" class="button" onclick="doLogin();"> LOGIN </button>
+			<div>
+				<label for="password"> Password </label><br/>
+				<input type="password" id="loginPassword" required />
+				<i class="fa fa-eye" id="eyeLogin" onclick="toggleLogin();"></i>
+			</div>
+			<br/><br/>
+
+			<button id="logBtn" type="button" class="button" onclick="doLogin();"> LOGIN </button>
 
 			<div class="extra"> Don't have an account? <a href="signup.html"> Register </a></div>
 			<div id="loginResult"></div>
 		</div>
 	</div>
 	</div>
+
+	<script>
+	addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			document.getElementById("logBtn").click();
+		}
+	});
+	</script>
 </body>
 </html>
