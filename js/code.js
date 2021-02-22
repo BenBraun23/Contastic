@@ -247,10 +247,11 @@ function addContact()
 }
 
 function homeStartUp() {
+  randomPic();
+  
   var table = document.createElement("table");
 	table.setAttribute("id", "fillContacts");
  	document.body.appendChild(table);
-
   createTableHeaders();
   searchContact();
 }
@@ -615,5 +616,23 @@ function toggleLogin() {
 		pwd.setAttribute("type", "text");
 	} else {
 		pwd.setAttribute("type", "password");
+	}
+}
+
+function randomPic() {
+	//var userId = 26;
+	var tempId = userId;
+	var picNum = tempId % 4;
+	switch(picNum) {
+		case 0:	document.getElementById("userAvatar").setAttribute("src", "images/profPic1.png");
+			break;
+		case 1:document.getElementById("userAvatar").setAttribute("src", "images/profPic2.png");
+			break
+		case 2:document.getElementById("userAvatar").setAttribute("src", "images/profPic3.png");
+			break;
+		case 3:document.getElementById("userAvatar").setAttribute("src", "images/profPic4.png");
+			break;
+		default:document.getElementById("userAvatar").setAttribute("src", "images/profPic1.png");
+			break;
 	}
 }
