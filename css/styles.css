@@ -16,7 +16,7 @@ body {
 	background-color: white;
 	margin: 0 auto;
 	min-height: 600px;
-	min-width: 740px;
+	min-width: 840px;    /* Edit this line for responsive quick fix*/
 	text-align: center;
 	font-family: helvetica;
 }
@@ -118,6 +118,25 @@ a:hover {
 	border-radius: 0 0 8px 0;
 	float: left;
 	height: 580px;
+}
+
+.profButton {
+	width: 100%;
+	min-width: 50px;
+	min-height: 35px;
+	padding: 5px;
+	background-color: #a0b7ab;
+	border-radius: 2px;
+	border-style: none;
+	color: white;
+	font-size: 16px;
+	letter-spacing: 0.3px;
+	line-height: 120%;
+}
+
+.profButton:hover {
+	background-color: #658c77;
+	cursor: pointer;
 }
 
 #userAvatar {
@@ -266,7 +285,8 @@ tr:hover {
 	border: none;
 	background: none;
 	width: 25px;
-	padding: 0 0 3px;
+	height: 25px;
+	padding: 0 0 1px;
 	margin: 0;
 	border-radius: 5px;
 	color: #ff4242;
@@ -282,6 +302,7 @@ tr:hover {
 	border: none;
 	background: none;
 	width: 25px;
+	height: 25px;
 	margin: 0;
 	padding: 0 0 3px;
 	border-radius: 5px;
@@ -310,3 +331,5 @@ tr:hover {
 	background-color: #636363;
 	cursor: pointer;
 }
+
+
