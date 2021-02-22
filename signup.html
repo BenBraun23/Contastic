@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Contastic Sign Up</title>
-	
+
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
 
@@ -9,6 +9,7 @@
 	<link rel="icon" href="images/cropLogo.png" type="image/icon type">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="stylesheet" href=https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 
 <body>
@@ -16,7 +17,7 @@
 	<div id="content" style="margin: 85px 10px 0">
 		<img src="images/cropLogo.png" alt="Contastic" style="height: 60px; vertical-align: middle;">
 		<span style="font-size: 45px; font-family:'Exo', sans-serif; vertical-align: middle; padding: 0 10px;"> CONTASTIC </span>
-	
+
 		<div class="info">
 			<div id="category"> Sign Up </div>
 
@@ -28,16 +29,38 @@
 
 			<label for="username"> Username </label><br/>
 			<input type="text" id="loginName" required /><br/><br/>
-			
-			<label for="password"> Password </label><br/>
-			<input type="password" id="loginPassword" required /><br/><br/>
 
-			<button type="button" class="button" onclick="registerUser();">CREATE &nbspACCOUNT</button>
+      <div>
+			  <label for="password"> Password </label><br/>
+			  <input type="password" id="loginPassword" required />
+        <i class="fa fa-eye" id="eye1" onclick="togglePassword();"></i>
+      </div>
+      <br/>
+     
+      <div>
+				<label for="password"> Confirm Password </label><br/>
+				<input type="password" id="confirmPassword" required />
+				<i class="fa fa-eye" id="eye2" onclick="toggleConfirm();"></i>
+				<div id="passwordResult" class="signUpResults" style="margin: 3;"></div>
+      </div>
+      <br/>
+
+			<button id="regBtn" type="button" class="button" onclick="registerUser();">CREATE &nbspACCOUNT</button>
 
 			<div class="extra"> Already have an account? <a href="index.html"> Login </a></div>
-			<div id="registerResult"></div>
+			<div id="registerResult" class="signUpResults"></div>
 		</div>
 	</div>
 	</div>
+
+	<script>
+	addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			document.getElementById("regBtn").click();
+		}
+	});
+	</script>
+
 </body>
 </html>
