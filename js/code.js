@@ -52,7 +52,7 @@ function doLogin()
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-				
+
 				window.location.href = "home.html";
 			}
 		};
@@ -72,11 +72,24 @@ function registerUser() {
 	var password = document.getElementById("loginPassword").value;
 	var hash = md5( password );
 
-	if ((login == "") || (password == ""))
+	if ((login == "") || (password == "" )|| (firstName == "") || (lastName == ""))
 	{
-		document.getElementById("loginResult").innerHTML = "Not a valid username/password";
+		document.getElementById("registerResult").innerHTML = "Information missing. All fields are required";
 		return;
-	}
+	} else {
+    document.getElementById("registerResult").innerHTML = " ";
+  }
+
+	if(password.length < 7) {
+		document.getElementById("registerResult").innerHTML = "Password must be at least 7 characters";
+		return;
+	} else {
+    document.getElementById("registerResult").innerHTML = " ";
+   }
+
+  if(comparePassword() == 1) {
+    return;
+  }
 
 	document.getElementById("registerResult").innerHTML = "";
 
@@ -102,14 +115,14 @@ function registerUser() {
 				// Ensures user does not get auto logged in if they create existing username
 				if (userId < 1)
 				{
-					document.getElementById("loginResult").innerHTML = jsonObject.error;
+					document.getElementById("registerResult").innerHTML = jsonObject.error;
 					return;
 				}
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-				
+
 				window.location.href = "home.html";
 			}
 		};
@@ -179,14 +192,13 @@ function addContact()
 	var newPhone = document.getElementById("phone").value;
 	var newEmail = document.getElementById("email").value;
 
-	document.getElementById("contactAddResult").innerHTML = "";
-
-	// Changed from alert pop-up to display error message
 	if (newFirstName == "")
 	{
-		document.getElementById("contactAddResult").innerHTML = "First Name cannot be empty";
+    document.getElementById("addError").style.display = "block";
 		return;
-	}
+	} else {
+     document.getElementById("addError").style.display = "none";
+  }
 
 	var jsonPayload =  `{"firstName" : "${newFirstName}",
 						"lastName" : "${newLastName}",
@@ -212,17 +224,17 @@ function addContact()
 				addContactToTable(newFirstName, newLastName, newPhone, newEmail, jsonPayload.id);
 				searchContact();
 				//document.getElementById("contactAddResult").innerHTML = "Contact has been added";
-        
-        //Closing modal
-        var modal = document.getElementById('addModal');
-      	modal.style.display = "none";
-        //clearing fields in modal for additional contacts
-        document.getElementById('firstName').value = '';
-        document.getElementById('lastName').value = ''
-        document.getElementById('phone').value = ''
-        document.getElementById('email').value = ''
-        
-        addNotification();
+
+		        //Closing modal
+		        var modal = document.getElementById('addModal');
+		      	modal.style.display = "none";
+		        //clearing fields in modal for additional contacts
+		        document.getElementById('firstName').value = '';
+		        document.getElementById('lastName').value = ''
+		        document.getElementById('phone').value = ''
+		        document.getElementById('email').value = ''
+
+		        addNotification();
 			}
 		};
 
@@ -283,6 +295,35 @@ function createTableHeaders(){
 	table.appendChild(row);
 }
 
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("fillContacts");
+  switching = true;
+
+  while (switching) {
+
+    switching = false;
+    rows = table.rows;
+
+    for (i = 1; i < (rows.length - 1); i++) {
+
+      shouldSwitch = false;
+
+      x = rows[i].getElementsByTagName("th1")[0];
+      y = rows[i + 1].getElementsByTagName("th1")[0];
+
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
 function resetTable() {
 	var table = document.getElementById('fillContacts');
 	table.innerHTML = "";
@@ -291,7 +332,6 @@ function resetTable() {
 
 function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 {
-	//alert(id);
 	// Find a <table> element with id="fillContacts":
 	var table = document.getElementById("fillContacts");
 
@@ -302,7 +342,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 	editButton.setAttribute("class","edit");
 
 	editButton.onclick = function() {
-		openModal({ id: id, firstName: newFirstName, lastName: newLastName, phone: newPhone, email: newEmail }); 
+		openModal({ id: id, firstName: newFirstName, lastName: newLastName, phone: newPhone, email: newEmail });
 	}
 
 	//Create delete button
@@ -313,11 +353,7 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 
 	deleteButton.onclick = function()
 	{
-		// This function is a test. The working version should call deleteContact()
-		//deleteTest(newFirstName, newLastName, newPhone, newEmail);
-		// pass the contact to delete
-		deleteContact(id);
-		searchContact();
+		openMo(id);
 	}
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
@@ -340,16 +376,22 @@ function addContactToTable(newFirstName, newLastName, newPhone, newEmail, id)
 	cell6.appendChild(deleteButton);
 }
 
-// This function is a test. I am testing if the parameters can be pass to this function.
+function openMo(id) {
+	var modal = document.getElementById('deleteModal');
+	//modal.classList.toggle('modal-open');
+	modal.style.display = "block";
+
+	document.getElementById("uid").value = id;
+}
+
+// This function is a test.
 function deleteTest(newFirstName, newLastName, newPhone, newEmail)
 {
 	//window.alert("This button should call the delete() funtion and deletes this contact : " +  newFirstName + " " + newLastName + " "  + newPhone + " " + newEmail );
 }
 
-// Updated Search
 function searchContact()
 {
-	// Updated to search every field
 	var first = document.getElementById("firstSearch").value;
 	var last = document.getElementById("lastSearch").value;
 	var phone = document.getElementById("phoneSearch").value;
@@ -378,21 +420,18 @@ function searchContact()
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
 
-				// convert JSON to a string
-				// var str = JSON.stringify(jsonObject);
-				// alert(str);
-
 				resetTable();
-        
+				sortTable();
+
 				jsonObject.forEach(function(user) {
 					addContactToTable(user.firstName, user.lastName, user.phone, user.email, user.id);
 				})
-        
-          document.getElementById('firstSearch').value = '';
-          document.getElementById('lastSearch').value = '';
-          document.getElementById('phoneSearch').value = '';
-          document.getElementById('emailSearch').value = '';
-        
+
+	          document.getElementById('firstSearch').value = '';
+	          document.getElementById('lastSearch').value = '';
+	          document.getElementById('phoneSearch').value = '';
+	          document.getElementById('emailSearch').value = '';
+
 			}
 		};
 		xhr.send(JSON.stringify(jsonPayload)); // to make sure it is a string
@@ -403,7 +442,6 @@ function searchContact()
 	}
 }
 
-// Updates every field whether editted or not
 function openModal(user) {
 	var modal = document.getElementById('homeModal');
 	var form = document.getElementById('update-contact');
@@ -411,7 +449,7 @@ function openModal(user) {
 
 	//modal.classList.toggle('modal-open');
 	modal.style.display = "block";
-	
+
 	document.getElementById("firstEdit").value = user.firstName;
 	document.getElementById("lastEdit").value = user.lastName;
 	document.getElementById("emailEdit").value = user.email;
@@ -447,14 +485,13 @@ function updateContact(event) {
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("updateResult").innerHTML = "Contact has been updated";
+				//document.getElementById("updateResult").innerHTML = "Contact has been updated";
 				closeModal();
 				searchContact();
-        updateNotification();
+        		updateNotification();
 			}
 		};
 		xhr.send(jsonPayload);
-
 	}
 	catch(err)
 	{
@@ -462,15 +499,9 @@ function updateContact(event) {
 	}
 }
 
-// Removes contact
 function deleteContact(id) {
-
-	// Grab specific contact id (MUST MATCH HTML)
 	var contactID = id;
 	//document.getElementById("deleteResult").innerHTML = "";
-
-	//alert(id);
-	// "id" must match API
 	var jsonPayload = '{"id" : "' + contactID + '"}';
 	var url = urlBase + '/DeleteContact.' + extension;
 
@@ -483,8 +514,11 @@ function deleteContact(id) {
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-        searchContact();
-				document.getElementById("updateResult").innerHTML = "Contact has been deleted";
+				var modal = document.getElementById('deleteModal');
+		      	modal.style.display = "none";
+        		searchContact();
+				deleteNotification();
+				//document.getElementById("updateResult").innerHTML = "Contact has been deleted";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -511,6 +545,75 @@ function addNotification(){
 	document.body.appendChild(notif);
 }
 
-function initHome() {
+function deleteNotification(){
+	var notif = document.getElementById("deleteNotif");
+	notif.setAttribute("class", "notification");
+	notif.removeAttribute("hidden");
+	document.body.removeChild(notif);
+	document.body.appendChild(notif);
+}
 
+function comparePassword(){
+	var pwd = document.getElementById("loginPassword").value;
+	var pwdConfirm = document.getElementById("confirmPassword").value;
+
+	if (pwd != pwdConfirm) {
+		document.getElementById("passwordResult").innerHTML = "*Passwords do not match";
+     return 1;
+	} else {
+		document.getElementById("passwordResult").innerHTML = "";
+	}
+
+   return 0;
+}
+
+function togglePassword() {
+	var pwd = document.getElementById("loginPassword");
+	var eyeball = document.getElementById("eye1");
+
+	if (eyeball.getAttribute("class") == "fa fa-eye") {
+		eyeball.setAttribute("class", "fa fa-eye-slash");
+	} else {
+		eyeball.setAttribute("class", "fa fa-eye");
+	}
+
+	if (pwd.getAttribute("type") == "password") {
+		pwd.setAttribute("type", "text");
+	} else {
+		pwd.setAttribute("type", "password");
+	}
+}
+
+function toggleConfirm() {
+	var pwd = document.getElementById("confirmPassword");
+	var eyeball = document.getElementById("eye2");
+
+	if (eyeball.getAttribute("class") == "fa fa-eye") {
+		eyeball.setAttribute("class", "fa fa-eye-slash");
+	} else {
+		eyeball.setAttribute("class", "fa fa-eye");
+	}
+
+	if (pwd.getAttribute("type") == "password") {
+		pwd.setAttribute("type", "text");
+	} else {
+		pwd.setAttribute("type", "password");
+	}
+}
+
+function toggleLogin() {
+	var pwd = document.getElementById("loginPassword");
+	var eyeball = document.getElementById("eyeLogin");
+
+	if (eyeball.getAttribute("class") == "fa fa-eye") {
+		eyeball.setAttribute("class", "fa fa-eye-slash");
+	} else {
+		eyeball.setAttribute("class", "fa fa-eye");
+	}
+
+	if (pwd.getAttribute("type") == "password") {
+		pwd.setAttribute("type", "text");
+	} else {
+		pwd.setAttribute("type", "password");
+	}
 }
